@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Informacje o Graczach</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='players_info.css') }}">
+</head>
+<body>
+    {% if players_info %}
+        {% for player in players_info %}
+            <div class="flex">
+                {{ player[0] }}<br>
+                {% for link in player[1:] %}
+                    <a href="{{ link }}">{{ link }}</a><br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nie znaleziono informacji dla podanego gracza na serwerze.</p>
+    {% endif %}
+</body>
+</html>
