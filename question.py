@@ -653,7 +653,6 @@ def calculate_time_ago(game_start_timestamp_ms):
 def get_match_participant_details(match_details, puuid, SERVER):
     participant_details_list = []
     for participant in match_details["info"]["participants"]:
-        print("a")
         game_start_timestamp_ms = match_details["info"].get("gameStartTimestamp", 0)
         participant_details = {
             "Champion": participant.get("championName", ""),
@@ -738,7 +737,6 @@ def display_matches_by_value(summoner_name, summoner_tag, SERVER, current_count,
     for match_id in match_ids_list:
         match_details = send_get_request(
             f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/lol/match/v5/matches/{match_id}")
-        print(match_details)
         participant_details = get_match_participant_details(match_details, puuid,SERVER)
         match_history_list.append(participant_details)
     match_history_list_sorted=[]
