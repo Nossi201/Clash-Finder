@@ -23,7 +23,7 @@ servers_to_region = {
     'turkey': ['tr1', 'europe', 'tr']
 }
 
-API_KEY = "RGAPI-107bfc24-a559-4561-b0fc-39e6aac6a04e"
+API_KEY = "RGAPI-a4e6ae00-5794-457a-84b9-ac85edfc8a12"
 HEADERS = {"X-Riot-Token": API_KEY}
 RUNES_AND_SHARDS = {
     8100: 'Domination', 8300: 'Inspiration', 8000: 'Precision', 8400: 'Resolve', 8200: 'Sorcery',
