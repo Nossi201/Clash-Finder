@@ -652,7 +652,9 @@ def calculate_time_ago(game_start_timestamp_ms):
 
 def get_match_participant_details(match_details, puuid, SERVER):
     participant_details_list = []
+    flag = 1
     for participant in match_details["info"]["participants"]:
+
         game_start_timestamp_ms = match_details["info"].get("gameStartTimestamp", 0)
         participant_details = {
             "Champion": participant.get("championName", ""),
@@ -678,18 +680,15 @@ def get_match_participant_details(match_details, puuid, SERVER):
         participant_details["Game Duration"] = f"{game_duration[0]}:{game_duration[1]:02d}"
         # Dodatkowe pola dla uczestnika, który jest głównym graczem
         if participant.get("puuid") == puuid:
+            if flag:
+                participant_details["summonerId"] = participant.get("summonerId")
             participant_details["gameStartTimestamp"] = match_details["info"].get("gameStartTimestamp", 0)
             participant_details["Match Result"] = 'Win' if participant.get('win', False) else 'Lose'
             participant_details["Start Date"] = datetime.datetime.fromtimestamp(game_start_timestamp_ms / 1000).strftime('%d/%m/%Y %H:%M')
             participant_details["Start Game Ago"] = calculate_time_ago(game_start_timestamp_ms)
-            participant_details["Summoner Spells"] = [
-                (participant.get('summoner1Id'), SUMMONER_SPELLS.get(participant.get('summoner1Id'), "")),
-                (participant.get('summoner2Id'), SUMMONER_SPELLS.get(participant.get('summoner2Id'), ""))
-            ]
             game_duration = divmod(match_details['info'].get('gameDuration', 0), 60)
             participant_details["Game Duration"] = f"{game_duration[0]}:{game_duration[1]:02d}"
             participant_details["Kill Participation"] = f"{participant['challenges'].get('killParticipation', 0) * 100:.0f}%"
-            participant_details["Control Wards"] = participant.get('visionWardsBoughtInGame', 0)
             participant_details_list.insert(0, participant_details)
         else:
             participant_details_list.append(participant_details)
@@ -712,7 +711,6 @@ def display_matches(summoner_name, summoner_tag, SERVER):
     match_ids_list = send_get_request(
         f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=20")
     match_history_list = []
-
     for match_id in match_ids_list:
         match_details = send_get_request(
             f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/lol/match/v5/matches/{match_id}")
@@ -721,6 +719,11 @@ def display_matches(summoner_name, summoner_tag, SERVER):
     match_history_list_sorted=[]
     for match in match_history_list:
         match_history_list_sorted.append(sort_participants(match, match[0]['Team ID']))
+
+
+    tmp = send_get_request(
+        f"https://{servers_to_region[SERVER][0]}.api.riotgames.com/lol/league/v4/entries/by-summoner/{match_history_list_sorted[0][0]["summonerId"]}")
+    print(f"{tmp[0]['queueType'][7:11]} = {tmp[0]['tier']}{tmp[0]['rank']} {tmp[0]['leaguePoints']}lp")
     match_history_list_sorted[0][0]["SERVER"] = SERVER
     match_history_list_sorted[0][0]["summoner_name"] = summoner_name
     match_history_list_sorted[0][0]["summoner_tag"] = summoner_tag
