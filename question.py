@@ -23,11 +23,11 @@ servers_to_region = {
     'turkey': ['tr1', 'europe', 'tr']
 }
 
-API_KEY = "RGAPI-a4e6ae00-5794-457a-84b9-ac85edfc8a12"
+API_KEY = "RGAPI-070f4fb3-e23a-4bb7-9a25-95524f7113a9"
 HEADERS = {"X-Riot-Token": API_KEY}
 RUNES_AND_SHARDS = {
     8100: 'Domination', 8300: 'Inspiration', 8000: 'Precision', 8400: 'Resolve', 8200: 'Sorcery',
-    8112: 'Electrocute', 8124: 'Predator', 8128: 'DarkHarvest', 9923: 'HailOfBlades',
+
     8126: 'CheapShot', 8139: 'TasteOfBlood', 8143: 'SuddenImpact', 8136: 'ZombieWard',
     8120: 'GhostPoro', 8138: 'EyeballCollection', 8135: 'TreasureHunter', 8134: 'IngeniousHunter',
     8105: 'RelentlessHunter', 8106: 'UltimateHunter', 8351: 'GlacialAugment', 8360: 'UnsealedSpellbook',
@@ -56,6 +56,18 @@ RUNES_AND_SHARDS = {
 }
 ITEMS = {
     0: '',
+    222503: 'Blackfire Torch',
+
+    2508: 'Fated Ashes',
+    447111: 'Overlord\'s Bloodmail',
+    2501: 'Overlord\'s Bloodmail',
+    3010: 'Symbiotic Soles',
+
+    3013: 'Synchronized Souls',
+    3032: 'Yun Tal Wildarrows',
+    223032: 'Yun Tal Wildarrows',
+    3144: 'Scout\'s Slingshot',
+
     1001: 'Boots',
     1004: 'Faerie Charm',
     1006: 'Rejuvenation Bead',
@@ -708,10 +720,12 @@ def display_matches(summoner_name, summoner_tag, SERVER):
     account_info = get_account_info(summoner_name,summoner_tag,SERVER)
 
     puuid = account_info["puuid"]
+
     match_ids_list = send_get_request(
         f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=20")
     match_history_list = []
     for match_id in match_ids_list:
+
         match_details = send_get_request(
             f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/lol/match/v5/matches/{match_id}")
         participant_details = get_match_participant_details(match_details, puuid, SERVER)
@@ -719,11 +733,12 @@ def display_matches(summoner_name, summoner_tag, SERVER):
     match_history_list_sorted=[]
     for match in match_history_list:
         match_history_list_sorted.append(sort_participants(match, match[0]['Team ID']))
+        print(match)
 
-
-    tmp = send_get_request(
-        f"https://{servers_to_region[SERVER][0]}.api.riotgames.com/lol/league/v4/entries/by-summoner/{match_history_list_sorted[0][0]["summonerId"]}")
-    print(f"{tmp[0]['queueType'][7:11]} = {tmp[0]['tier']}{tmp[0]['rank']} {tmp[0]['leaguePoints']}lp")
+    # tmp = send_get_request(
+    #     f"https://{servers_to_region[SERVER][0]}.api.riotgames.com/lol/league/v4/entries/by-summoner/{match_history_list_sorted[0][0]["summonerId"]}")
+    #
+    # print(f"{tmp[0]['queueType'][7:11]} = {tmp[0]['tier']}{tmp[0]['rank']} {tmp[0]['leaguePoints']}lp")
     match_history_list_sorted[0][0]["SERVER"] = SERVER
     match_history_list_sorted[0][0]["summoner_name"] = summoner_name
     match_history_list_sorted[0][0]["summoner_tag"] = summoner_tag
