@@ -189,3 +189,51 @@ p {
     margin:0px;
     border: solid 1px #805300;
 }
+.empty-slot {
+    display: inline-block;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+.item-icon.empty-slot {
+    width: 32px;
+    height: 32px;
+}
+
+.array-icon-1.empty-slot {
+    width: 24px;
+    height: 24px;
+}
+.item-icon.empty-slot {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+.array-icon-1.empty-slot {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+/* Consistent styling for all the item display containers */
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+/* Make sure the detailed items view is also properly aligned */
+.col-md-6 .col-md-7, .col-md-6 .col-md-6 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 5px;
+}

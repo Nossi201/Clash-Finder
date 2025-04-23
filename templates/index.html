@@ -36,12 +36,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div>
-                    <input type="radio" id="clashTeam" name="option" value="clashTeam" checked>
-                    <label for="clashTeam">Clash Team</label>
-                    <input type="radio" id="playerStats" name="option" value="playerStats">
-                    <label for="playerStats">Player Stats</label>
-                </div>
+                <!-- Hidden input to always set playerStats option -->
+                <input type="hidden" name="option" value="playerStats">
                 <button type="submit" class="btn btn-primary" id="Search_button">Search</button>
             </form>
     </div>

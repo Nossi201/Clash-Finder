@@ -1,8 +1,9 @@
-<!--player_hitory.html-->
+<!--player_history.html-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player History</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
@@ -54,7 +55,15 @@
                         <!-- Dolny div: Itemy -->
                         <div class="lower-part items-container">
                             {% for item in match[0]["Items"] %}
-                                <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="item-icon">
+                                {% if item[0] != 0 %}
+                                    <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="item-icon">
+                                {% else %}
+                                    <div class="item-icon empty-slot"></div>
+                                {% endif %}
+                            {% endfor %}
+                            {% set items_count = match[0]["Items"]|length %}
+                            {% for i in range(7 - items_count) %}
+                                <div class="item-icon empty-slot"></div>
                             {% endfor %}
                         </div>
                     </div>
@@ -69,17 +78,29 @@
                             <div class="col-6 team">
                                 {% for player in match[:5] %}
                                     <img src="{{ url_for('static', filename='img/champion/' ~ player['Champion'] ~ '.png') }}" alt="{{ player['Champion'] }}" class="team-icon">
-                                    <a href="/player_stats/{{ player['Summoner Name'] }}%23{{ player['summoner_tag'] }}/{{match_history_list_sorted[0][0]['SERVER']}}" class="player-name">
-                                        {{ player["Summoner Name"] }}#{{ player["summoner_tag"] }}
-                                    </a><br>
+                                    {% if player['summoner_tag'] %}
+                                        {% set player_name = player['Summoner Name'] ~ '#' ~ player['summoner_tag'] %}
+                                    {% else %}
+                                        {% set player_name = player['Summoner Name'] %}
+                                    {% endif %}
+                                    <a href="/player_stats/{{ player_name.replace('#', '--').replace(' ', '-') }}/{{ match_history_list_sorted[0][0]['SERVER'].lower().replace(' ', '-').replace('&', 'and') }}" class="player-name">
+                                        {{ player_name }}
+                                    </a>
+                                    <br>
                                 {% endfor %}
                             </div>
                             <div class="col-6 team">
                                 {% for player in match[5:] %}
                                     <img src="{{ url_for('static', filename='img/champion/' ~ player['Champion'] ~ '.png') }}" alt="{{ player['Champion'] }}" class="team-icon">
-                                    <a href="/player_stats/{{ player['Summoner Name'] }}%23{{ player['summoner_tag'] }}/{{match_history_list_sorted[0][0]['SERVER']}}" class="player-name">
-                                        {{ player["Summoner Name"] }}#{{ player["summoner_tag"] }}
-                                    </a><br>
+                                    {% if player['summoner_tag'] %}
+                                        {% set player_name = player['Summoner Name'] ~ '#' ~ player['summoner_tag'] %}
+                                    {% else %}
+                                        {% set player_name = player['Summoner Name'] %}
+                                    {% endif %}
+                                    <a href="/player_stats/{{ player_name.replace('#', '--').replace(' ', '-') }}/{{ match_history_list_sorted[0][0]['SERVER'].lower().replace(' ', '-').replace('&', 'and') }}" class="player-name">
+                                        {{ player_name }}
+                                    </a>
+                                    <br>
                                 {% endfor %}
                             </div>
                         </div>
@@ -135,7 +156,15 @@
                             </div>
                             <div class="col-md-7">
                             {% for item in player["Items"] %}
-                                <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="array-icon-1">
+                                {% if item[0] != 0 %}
+                                    <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="array-icon-1">
+                                {% else %}
+                                    <div class="array-icon-1 empty-slot"></div>
+                                {% endif %}
+                            {% endfor %}
+                            {% set items_count = player["Items"]|length %}
+                            {% for i in range(7 - items_count) %}
+                                <div class="array-icon-1 empty-slot"></div>
                             {% endfor %}
                             </div>
 
@@ -191,7 +220,15 @@
                             </div>
                             <div class="col-md-7">
                             {% for item in player["Items"] %}
-                                <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="array-icon-1">
+                                {% if item[0] != 0 %}
+                                    <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="array-icon-1">
+                                {% else %}
+                                    <div class="array-icon-1 empty-slot"></div>
+                                {% endif %}
+                            {% endfor %}
+                            {% set items_count = player["Items"]|length %}
+                            {% for i in range(7 - items_count) %}
+                                <div class="array-icon-1 empty-slot"></div>
                             {% endfor %}
                             </div>
 
