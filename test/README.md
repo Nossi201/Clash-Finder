@@ -304,23 +304,6 @@ jobs:
           RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
 ```
 
-## 🤝 Collaboration
-
-### Adding new tests
-
-1. Create a branch: `feature/new-test-functionality`
-2. Add tests following naming conventions
-3. Ensure coverage does not decrease
-4. Update documentation
-5. Open a PR describing new test cases
-
-### Reporting test bugs
-
-1. Verify reproducibility
-2. Add a test reproducing the issue
-3. Mark test with `pytest.mark.xfail` and rationale
-4. Create an issue tagged `bug`
-
 ---
 
 > **Note:** Tests may occasionally fail due to API rate limits or external service changes—this is normal when testing against third-party APIs.
