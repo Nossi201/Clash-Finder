@@ -3,5 +3,7 @@ requests
 Pillow
 schedule
 aiohttp
-asyncio
 certifi
+selenium
+pytest
+pytest-asyncio

@@ -92,7 +92,7 @@ async def async_get_request(session, url):
             print(f"Error even with SSL disabled: {e}")
             return None
 
-
+# Deleted in RIOT API
 @timed_cache(300)
 def get_account_info(summoner_name, summoner_tag, SERVER):
     url = f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}/{summoner_tag}"

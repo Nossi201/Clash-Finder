@@ -1,5 +1,6 @@
 # app.py
 import ssl_env_config  # Import SSL configuration
+import re
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 from config import FLASK_SECRET_KEY
@@ -39,8 +40,15 @@ def slugify_server(server):
 
 
 def unslugify_server(slug):
-    """Konwertuje slug z powrotem na nazwę serwera"""
-    return slug.replace('-', ' ').replace('and', '&')
+    """Konwertuje slug z powrotem na nazwę serwera (wersja z regex)"""
+    # Najpierw zamień myślniki na spacje
+    result = slug.replace('-', ' ')
+
+    # Zamień tylko całe słowo "and" na "&"
+    # \b to word boundary - zapewnia że "and" to osobne słowo
+    result = re.sub(r'\band\b', '&', result)
+
+    return result
 
 
 @app.route('/')
