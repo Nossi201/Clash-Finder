@@ -11,6 +11,14 @@ from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.action_chains import ActionChains
 
 class TestShowMoreMatches:
+    """
+    End-to-End test for dynamic "Show More" matches button:
+    1. Navigate to a known player's stats page with limited matches loaded.
+    2. Verify initial number of match entries displayed.
+    3. Click the "Show More" button.
+    4. Wait for additional match entries to load.
+    5. Confirm that the total match count has increased by the expected amount.
+    """
     def setup_method(self):
         self.driver = webdriver.Chrome()
         self.wait = WebDriverWait(self.driver, 10)

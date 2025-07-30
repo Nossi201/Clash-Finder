@@ -2,96 +2,68 @@
 import schedule
 import time
 import json
-import requests
 from datetime import datetime
 from pathlib import Path
 from resource_downloader import LoLResourceDownloader
 
 
 class LoLAutoUpdater:
+    """Automatically update League of Legends resources by version checking."""
+
     def __init__(self):
+        """Initialize the version file path and resource downloader."""
         self.version_file = Path("lol_version.json")
         self.downloader = LoLResourceDownloader()
 
     def load_current_version(self):
-        """Load the current version from file"""
+        """Load the current version from the version file."""
         if self.version_file.exists():
-            with open(self.version_file, 'r') as f:
+            with open(self.version_file, "r") as f:
                 data = json.load(f)
-                return data.get('version')
-        return None
+                return data.get("version", "")
+        return ""
 
     def save_current_version(self, version):
-        """Save the current version to file"""
-        with open(self.version_file, 'w') as f:
-            json.dump({
-                'version': version,
-                'last_updated': datetime.now().isoformat()
-            }, f)
-
-    def check_for_updates(self):
-        """Check if there's a new version available"""
-        try:
-            current_version = self.load_current_version()
-            latest_version = self.downloader.get_latest_version()
-
-            if current_version != latest_version:
-                print(f"New version detected: {latest_version} (previous: {current_version})")
-                return True, latest_version
-            else:
-                print(f"No update needed. Current version: {current_version}")
-                return False, latest_version
-        except Exception as e:
-            print(f"Error checking for updates: {str(e)}")
-            return False, None
+        """Save the given version and timestamp to the version file."""
+        with open(self.version_file, "w") as f:
+            json.dump({"version": version, "updated_at": datetime.utcnow().isoformat()}, f)
 
     def update_resources(self):
-        """Update resources if a new version is available"""
-        needs_update, latest_version = self.check_for_updates()
+        """Check for a new version and download resources if it differs."""
+        current = self.load_current_version()
+        latest = self.downloader.get_latest_version()
 
-        if needs_update:
-            print(f"Starting update to version {latest_version}...")
+        if latest != current:
+            print(f"Starting update to version {latest}...")
             self.downloader.download_all()
-            self.save_current_version(latest_version)
-            print(f"Successfully updated to version {latest_version}")
+            self.save_current_version(latest)
+            print(f"Successfully updated to version {latest}")
 
-        return needs_update
+        return latest != current
 
 
-# Funkcja do ręcznego uruchomienia aktualizacji
 def force_update():
+    """Force-download all resources and update the version file immediately."""
     updater = LoLAutoUpdater()
     updater.downloader.download_all()
     version = updater.downloader.get_latest_version()
     updater.save_current_version(version)
-    print(f"Forced update completed. Version: {version}")
 
 
-# Funkcja do sprawdzenia aktualnej wersji
 def check_version():
-    updater = LoLAutoUpdater()
-    current = updater.load_current_version()
-    latest = updater.downloader.get_latest_version()
-    print(f"Current version: {current}")
-    print(f"Latest version: {latest}")
-    print(f"Update needed: {current != latest}")
+    """Perform a version check and update resources if needed."""
+    LoLAutoUpdater().update_resources()
 
 
-# Automatyczne sprawdzanie co 6 godzin
 def start_auto_updater():
+    """Start the auto-updater loop, checking for updates every 6 hours."""
     updater = LoLAutoUpdater()
-
-    # Sprawdź przy starcie
-    updater.update_resources()
-
-    # Sprawdzaj co 6 godzin
     schedule.every(6).hours.do(updater.update_resources)
-
     print("Auto-updater started. Checking for updates every 6 hours...")
 
     while True:
         schedule.run_pending()
-        time.sleep(60)  # Sprawdzaj co minutę czy nie ma zadań do wykonania
+        time.sleep(60)
 
 
 if __name__ == "__main__":

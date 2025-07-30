@@ -35,12 +35,26 @@ HEADERS = {"X-Riot-Token": RIOT_API_KEY}
 
 # SSL Context creation
 def create_ssl_context():
+    """
+    Create an SSL context using certifi certificates.
+
+    Returns:
+        ssl.SSLContext: Configured SSL context for secure HTTP requests.
+    """
     ssl_context = ssl.create_default_context(cafile=certifi.where())
     return ssl_context
 
 
 # Caching decorator
-def timed_cache(seconds=300):  # 5 minute cache
+def timed_cache(seconds=300):
+    """
+    Decorator to cache function results for a specified duration.
+
+    Args:
+        seconds (int): Time in seconds to keep results in cache.
+    """
+
+    # 5 minute cache
     def decorator(func):
         cache = {}
 
@@ -61,6 +75,14 @@ def timed_cache(seconds=300):  # 5 minute cache
 
 
 def send_get_request(url):
+    """
+    Perform a synchronous GET request with Riot API headers.
+
+    Args:
+        url (str): Full API endpoint URL.
+    Returns:
+        dict or None: Parsed JSON response if status is 200, else None.
+    """
     response = requests.get(url, headers=HEADERS, verify=certifi.where())
     if response.status_code == 200:
         return response.json()
@@ -68,9 +90,32 @@ def send_get_request(url):
         print(f"Nie udało się uzyskać informacji. URL: {url}, Status Code: {response.status_code}")
         return None
 
+def parse_summoner_name(full_name: str) -> tuple[str, str]:
+    """
+    Split a full summoner name into its base name and tag components.
+
+    Args:
+        full_name (str): Full summoner identifier, e.g. "Name#TAG" or "Name".
+    Returns:
+        tuple[str, str]: A two-element tuple (base_name, tag). Tag is empty if none.
+    """
+    if "#" in full_name:
+        name, tag = full_name.split("#", 1)
+        return name, tag
+    else:
+        return full_name, ""
 
 # Async version of send_get_request with SSL fix
 async def async_get_request(session, url):
+    """
+    Perform an asynchronous GET request with Riot API headers.
+
+    Args:
+        session (aiohttp.ClientSession): Active HTTP session.
+        url (str): Full API endpoint URL.
+    Returns:
+        dict or None: Parsed JSON response if status is 200, else None.
+    """
     try:
         async with session.get(url, headers=HEADERS) as response:
             if response.status == 200:
@@ -95,33 +140,89 @@ async def async_get_request(session, url):
 # Deleted in RIOT API
 @timed_cache(300)
 def get_account_info(summoner_name, summoner_tag, SERVER):
+    """
+    Retrieve account information using a player's Riot ID (name and tag).
+
+    Args:
+        summoner_name (str): Player's in-game name.
+        summoner_tag (str): Player's tag or region suffix.
+        SERVER (str): Key from servers_to_region mapping.
+    Returns:
+        dict or None: Account info JSON if successful, otherwise None.
+    """
+
     url = f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}/{summoner_tag}"
     return send_get_request(url)
 
 
 def get_account_info_by_puuid(puuid, SERVER):
+    """
+    Retrieve account information using a player's PUUID.
+
+    Args:
+        puuid (str): Player Unique Identifier.
+        SERVER (str): Server key from servers_to_region.
+    Returns:
+        dict or None: Account info JSON or None if request fails.
+    """
     url = f"https://{servers_to_region[SERVER][1]}.api.riotgames.com/riot/account/v1/accounts/by-puuid/{puuid}"
     return send_get_request(url)
 
 
 @timed_cache(300)
 def get_summoner_info_puuid(puuid, SERVER):
+    """
+    Retrieve summoner data by PUUID.
+
+    Args:
+        puuid (str): Player Unique Identifier.
+        SERVER (str): Server key from servers_to_region.
+    Returns:
+        dict or None: Summoner info JSON or None if request fails.
+    """
     url = f"https://{servers_to_region[SERVER][0]}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}"
     return send_get_request(url)
 
 
 def get_team_info_puuid(summoner_id, SERVER):
+    """
+    Get Clash team membership info by summoner ID.
+
+    Args:
+        summoner_id (str): Summoner ID from summoner info.
+        SERVER (str): Server key from servers_to_region.
+    Returns:
+        list or None: List of team entries or None on failure.
+    """
     url = f"https://{servers_to_region[SERVER][0]}.api.riotgames.com/lol/clash/v1/players/by-summoner/{summoner_id}"
     return send_get_request(url)
 
 
 def get_tournament_id_by_team(team_id, SERVER):
+    """
+    Fetch tournament info for a Clash team.
+
+    Args:
+        team_id (str): Unique team ID.
+        SERVER (str): Server key from servers_to_region.
+    Returns:
+        dict or None: Tournament JSON data or None if request fails.
+    """
     url = f"https://{servers_to_region[SERVER][0]}.api.riotgames.com/lol/clash/v1/teams/{team_id}"
     return send_get_request(url)
 
 
 # Batch process players in a team
 async def show_players_team_async(players, SERVER):
+    """
+    Concurrently retrieve profile links for team members.
+
+    Args:
+        players (list): List of dicts containing 'summonerId'.
+        SERVER (str): Server key from servers_to_region.
+    Returns:
+        list: List of ["Name#Tag", UGG link, OP.GG link] entries.
+    """
     ssl_context = create_ssl_context()
     connector = aiohttp.TCPConnector(ssl=ssl_context)
     async with aiohttp.ClientSession(connector=connector) as session:
@@ -154,6 +255,15 @@ async def show_players_team_async(players, SERVER):
 
 
 def show_players_team(players, SERVER):
+    """
+    Synchronously run async player info fetch.
+
+    Args:
+        players (list): Team player list.
+        SERVER (str): Server key.
+    Returns:
+        list: Profile link entries.
+    """
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     result = loop.run_until_complete(show_players_team_async(players, SERVER))
@@ -162,6 +272,14 @@ def show_players_team(players, SERVER):
 
 
 def calculate_time_ago(game_start_timestamp_ms):
+    """
+    Convert a past timestamp to a human-readable "time ago" string.
+
+    Args:
+        timestamp_ms (int): Unix milliseconds.
+    Returns:
+        str: Formatted time difference, e.g. "5m ago" or "2h ago".
+    """
     game_start_date = datetime.datetime.fromtimestamp(game_start_timestamp_ms / 1000)
     now = datetime.datetime.now()
     time_diff = now - game_start_date
@@ -184,6 +302,16 @@ def calculate_time_ago(game_start_timestamp_ms):
 
 
 def get_match_participant_details(match_details, puuid, SERVER):
+    """
+    Extract and format participant stats from match details.
+
+    Args:
+        match_details (dict): Raw match info JSON.
+        puuid (str): Main player PUUID.
+        SERVER (str): Key from servers_to_region.
+    Returns:
+        list: Participant detail dicts, main player first.
+    """
     participant_details_list = []
     flag = 1
     for participant in match_details["info"]["participants"]:
@@ -250,6 +378,15 @@ def get_match_participant_details(match_details, puuid, SERVER):
 
 
 def sort_participants(participants, main_player_team_id):
+    """
+    Sort participants by team, placing the main player first.
+
+    Args:
+        participants (list): Raw participant detail dicts.
+        main_player_team_id (int): Team ID of main player.
+    Returns:
+        list: Ordered participant details with main player first.
+    """
     team_members = [p for p in participants[1:] if p['Team ID'] == main_player_team_id]
     opposite_team_members = [p for p in participants[1:] if p['Team ID'] != main_player_team_id]
     sorted_participants = [participants[0]] + team_members + opposite_team_members
@@ -258,6 +395,16 @@ def sort_participants(participants, main_player_team_id):
 
 # Optimized match fetching
 async def fetch_match_details_async(match_ids, puuid, SERVER):
+    """
+    Fetch multiple match details concurrently.
+
+    Args:
+        match_ids (list): List of match ID strings.
+        puuid (str): Player Unique ID.
+        SERVER (str): Server key.
+    Returns:
+        list: Raw participant detail lists for each match.
+    """
     ssl_context = create_ssl_context()
     connector = aiohttp.TCPConnector(ssl=ssl_context)
     async with aiohttp.ClientSession(connector=connector) as session:
@@ -278,6 +425,16 @@ async def fetch_match_details_async(match_ids, puuid, SERVER):
 
 
 def display_matches(summoner_name, summoner_tag, SERVER):
+    """
+    Retrieve and format the latest 20 match histories for a player.
+
+    Args:
+        summoner_name (str): Player name.
+        summoner_tag (str): Player tag.
+        SERVER (str): Server key.
+    Returns:
+        list or None: Sorted match history or None if not found.
+    """
     account_info = get_account_info(summoner_name, summoner_tag, SERVER)
     if not account_info:
         return None
@@ -311,6 +468,18 @@ def display_matches(summoner_name, summoner_tag, SERVER):
 
 
 def display_matches_by_value(summoner_name, summoner_tag, SERVER, current_count, limit):
+    """
+   Retrieve additional matches beyond initial set.
+
+   Args:
+       summoner_name (str): Player name.
+       summoner_tag (str): Player tag.
+       SERVER (str): Server key.
+       start (int): Starting index.
+       count (int): Number of matches to fetch.
+   Returns:
+       list or None: Additional match entries or None.
+   """
     account_info = get_account_info(summoner_name, summoner_tag, SERVER)
     if not account_info:
         return None

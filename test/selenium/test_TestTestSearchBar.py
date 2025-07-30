@@ -12,6 +12,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestTestSearchBar():
+  """
+  End-to-End test for the search bar functionality:
+  1. Open the home page.
+  2. Wait for the server dropdown to be visible.
+  3. Select a server from the dropdown.
+  4. Enter a valid summoner name into the text field.
+  5. Click the search button.
+  6. Verify that the browser redirects to the expected player stats URL.
+  """
   def setup_method(self, method):
     self.driver = webdriver.Chrome()
     self.vars = {}
