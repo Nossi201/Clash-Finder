@@ -159,7 +159,7 @@ class LoLResourceDownloader:
         print("All resources downloaded successfully!")
 
 
-# Skrypt do automatycznej aktualizacji
+# Script for automatic updates
 if __name__ == "__main__":
     downloader = LoLResourceDownloader()
     downloader.download_all()

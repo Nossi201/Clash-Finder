@@ -12,6 +12,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestTestCheckMoreStats():
+  """
+  End-to-End test for expanding and collapsing match statistics details:
+  1. Open a player's stats page with match history.
+  2. Click on the first match's "Show Stats" button.
+  3. Wait for the detailed stats panel to become visible.
+  4. Verify that key stat fields (e.g., KDA, Items) are present.
+  5. Click the button again to collapse the stats.
+  6. Confirm that the detailed panel is hidden.
+  """
   def setup_method(self, method):
     self.driver = webdriver.Chrome()
     self.vars = {}

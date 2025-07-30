@@ -1,14 +1,14 @@
-# ssl_env_config.py - Dodatkowa konfiguracja SSL
+# ssl_env_config.py – Additional SSL configuration
 import os
 import certifi
 import ssl
 
-# Ustawienia środowiskowe dla SSL
+# SSL environment settings
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
-# Jeśli używasz macOS, może być potrzebne:
+# If you're on macOS, you may need:
 # os.environ['CERT_PATH'] = certifi.where()
 
-# Globalne ustawienie kontekstu SSL
+# Global SSL context configuration
 ssl._create_default_https_context = ssl._create_unverified_context
