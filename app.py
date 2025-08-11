@@ -229,7 +229,7 @@ def jinja_slugify_server(s):
 
 # CDN Debug endpoints (tylko dla developmentu)
 @app.route('/api/cdn/test')
-def test_cdn():
+def cdn_test():
     """Test endpoint to verify CDN functionality"""
     try:
         version = riot_cdn.get_current_version()
