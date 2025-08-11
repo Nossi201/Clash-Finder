@@ -12,152 +12,211 @@
 </head>
 <body>
     <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom-padding fixed-top">
-      <a class="navbar-color d-flex align-items-center" href="/">
-        <img src="/static/img/Logo/Logo-nav.png" width="40" height="40" class="d-inline-block align-top" alt="" loading="lazy">
-        Clash Finder
-      </a>
-    </nav>
-</header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom-padding fixed-top">
+            <a class="navbar-color d-flex align-items-center" href="/">
+                <img src="/static/img/Logo/Logo-nav.png" width="40" height="40" class="d-inline-block align-top" alt="" loading="lazy">
+                Clash Finder
+            </a>
+        </nav>
+    </header>
+
     <div class="container main-content">
-    {% for match in match_history_list_sorted %}
-        <div class="card mb-3 {% if match[0]['Match Result'] == 'Win' %}card-win{% elif match[0]['Match Result'] == 'Lose' %}card-loss{% else %}card-draw{% endif %} ">
-                <div class="row row-margin5px ">
-                    <div class="col-md-2">
-                        <p title='{{ match[0]["Start Date"] }}'>Date: {{ match[0]["Start Game Ago"] }}</p>
-                        <p>Duration: {{ match[0]["Game Duration"] }}</p>
-                        <p>Result: {{ match[0]["Match Result"] }}</p>
-                        <p class="kda-text">KDA: {{ match[0]["KDA"] }}</p>
+        {% for match in match_history_list_sorted %}
+        <div class="card mb-3 {% if match[0]['Match Result'] == 'Win' %}card-win{% elif match[0]['Match Result'] == 'Lose' %}card-loss{% else %}card-draw{% endif %}">
+            <div class="row row-margin5px">
+                <!-- Match Info Column -->
+                <div class="col-md-2">
+                    <p title='{{ match[0]["Start Date"] }}'>Date: {{ match[0]["Start Game Ago"] }}</p>
+                    <p>Duration: {{ match[0]["Game Duration"] }}</p>
+                    <p>Result: {{ match[0]["Match Result"] }}</p>
+                    <p class="kda-text">KDA: {{ match[0]["KDA"] }}</p>
+                </div>
+
+                <!-- Champion, Spells, Runes, Items Column -->
+                <div class="col-md-3">
+                    <div class="upper-part d-flex flex-row">
+                        <!-- Champion icon -->
+                        <div class="g1-spells-runes d-flex flex-column justify-content-around">
+                            <img src="{{ get_champion_image_url(match[0]['Champion']) }}"
+                                 alt="{{ match[0]['Champion'] }}"
+                                 class="icons_main"
+                                 onerror="this.style.display='none'">
+                        </div>
+
+                        <!-- Runes and Summoner Spells - POPRAWKA: Dodano runy obok spells -->
+                        <div class="g1-spells-runes d-flex flex-column justify-content-around">
+                            <div class="d-flex">
+                                <!-- Pierwszy summoner spell -->
+                                <img src="{{ get_summoner_spell_image_url(match[0]['Summoner Spells'][0][0]) }}"
+                                     alt="Spell1"
+                                     class="spell-icon"
+                                     onerror="this.style.display='none'">
+                                <!-- Główna runa (Primary Rune) -->
+                                <img src="{{ get_rune_image_url(match[0]['Primary Rune'][0]) }}"
+                                     alt="Primary Rune"
+                                     class="rune-icon"
+                                     onerror="this.style.display='none'">
+                            </div>
+                            <div class="d-flex">
+                                <!-- Drugi summoner spell -->
+                                <img src="{{ get_summoner_spell_image_url(match[0]['Summoner Spells'][1][0]) }}"
+                                     alt="Spell2"
+                                     class="spell-icon"
+                                     onerror="this.style.display='none'">
+                                <!-- Ikona drugiego drzewa run (Secondary Rune Path) -->
+                                <img src="{{ get_rune_style_image_url(match[0]['Secondary Rune Path'][0]) }}"
+                                     alt="Secondary Rune"
+                                     class="rune-icon"
+                                     onerror="this.style.display='none'">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="upper-part d-flex flex-row">
-                            <!-- g1: Champion icon -->
-                            <div class="g1-spells-runes d-flex flex-column justify-content-around">
-                                <img src="{{ url_for('static', filename='img/champion/' ~ match[0]['Champion'] ~ '.png') }}" alt="{{ match[0]['Champion'] }}" class="icons_main">
-                            </div>
-                            <!-- g1: Runes and Summoner Spells -->
-                            <div class="g1-spells-runes d-flex flex-column justify-content-around">
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='img/spells/summoner/' ~ match[0]['Summoner Spells'][0][0] ~ '.png') }}" alt="Spell1" class="spell-icon">
-                                    <img src="{{ url_for('static', filename='img/runes_and_shards/' ~ match[0]['Primary Rune'][0] ~ '.png') }}" alt="Primary Rune" class="rune-icon">
-
-                                </div>
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='img/spells/summoner/' ~ match[0]['Summoner Spells'][1][0] ~ '.png') }}" alt="Spell2" class="spell-icon">
-                                    <img src="{{ url_for('static', filename='img/runes_and_shards/' ~ match[0]['Secondary Rune Path'][0] ~ '.png') }}" alt="Secondary Rune" class="rune-icon">
-                                </div>
-                            </div>
-
-                            <!-- g3: CS and other stats -->
-
-                        </div>
-                        <!-- Dolny div: Itemy -->
-                        <div class="lower-part items-container">
-                            {% for item in match[0]["Items"] %}
-                                {% if item[0] != 0 %}
-                                    <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="item-icon">
-                                {% else %}
-                                    <div class="item-icon empty-slot"></div>
-                                {% endif %}
-                            {% endfor %}
-                            {% set items_count = match[0]["Items"]|length %}
-                            {% for i in range(7 - items_count) %}
+                    <!-- Items row -->
+                    <div class="lower-part items-container">
+                        {% for item in match[0]["Items"] %}
+                            {% if item[0] != 0 %}
+                                <img src="{{ get_item_image_url(item[0]) }}"
+                                     alt="Item"
+                                     class="item-icon"
+                                     onerror="this.classList.add('empty-slot'); this.src='';">
+                            {% else %}
                                 <div class="item-icon empty-slot"></div>
+                            {% endif %}
+                        {% endfor %}
+                        {% set items_count = match[0]["Items"]|length %}
+                        {% for i in range(7 - items_count) %}
+                            <div class="item-icon empty-slot"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Stats Column -->
+                <div class="col-md-1">
+                    <p class="cs-text" title="Creep Score">CS: {{ match[0]["CS"] }}</p>
+                    <p class="stats-text" title="Control Wards">C.W: {{ match[0]["Control Wards"] }}</p>
+                    <p class="stats-text" title="Kill Participation">K.P: {{ match[0]["Kill Participation"] }}</p>
+                </div>
+
+                <!-- Teams Column -->
+                <div class="col-md-4">
+                    <div class="row">
+                        <!-- Team 1 (First 5 players) -->
+                        <div class="col-6 team">
+                            {% for player in match[:5] %}
+                                <img src="{{ get_champion_image_url(player['Champion']) }}"
+                                     alt="{{ player['Champion'] }}"
+                                     class="team-icon"
+                                     onerror="this.style.display='none'">
+                                {% if player['summoner_tag'] %}
+                                    {% set player_name = player['Summoner Name'] ~ '#' ~ player['summoner_tag'] %}
+                                {% else %}
+                                    {% set player_name = player['Summoner Name'] %}
+                                {% endif %}
+                                <a href="/player_stats/{{ player_name.replace('#', '--').replace(' ', '-') }}/{{ match_history_list_sorted[0][0]['SERVER'].lower().replace(' ', '-').replace('&', 'and') }}"
+                                   class="player-name">
+                                    {{ player_name }}
+                                </a>
+                                <br>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Team 2 (Last 5 players) -->
+                        <div class="col-6 team">
+                            {% for player in match[5:] %}
+                                <img src="{{ get_champion_image_url(player['Champion']) }}"
+                                     alt="{{ player['Champion'] }}"
+                                     class="team-icon"
+                                     onerror="this.style.display='none'">
+                                {% if player['summoner_tag'] %}
+                                    {% set player_name = player['Summoner Name'] ~ '#' ~ player['summoner_tag'] %}
+                                {% else %}
+                                    {% set player_name = player['Summoner Name'] %}
+                                {% endif %}
+                                <a href="/player_stats/{{ player_name.replace('#', '--').replace(' ', '-') }}/{{ match_history_list_sorted[0][0]['SERVER'].lower().replace(' ', '-').replace('&', 'and') }}"
+                                   class="player-name">
+                                    {{ player_name }}
+                                </a>
+                                <br>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <p class="cs-text" title="Creep Score">CS : {{ match[0]["CS"] }}</p>
-                        <p class="stats-text" title="Control Wards">C.W : {{ match[0]["Control Wards"] }}</p>
-                        <p class="stats-text" title="Kill Participation">K.P : {{ match[0]["Kill Participation"] }}</p>
+                </div>
+
+                <!-- Show Stats Button Column -->
+                <div class="col button-column">
+                    <button class="btn-primary btn-color toggle-details"
+                            id="All-Player-Button-Match-{{loop.index}}">
+                        Show Stats
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hidden detailed stats section -->
+            <div class="row row-margin5px margin-0" hidden>
+                <!-- Team 1 detailed stats -->
+                <div class="col-md-6">
+                    <!-- Header row -->
+                    <div class="upper-part d-flex flex-row">
+                        <div class="col-md-2">C</div>
+                        <div class="col-md-2">KDA</div>
+                        <div class="col-md-1">CS</div>
+                        <div class="col-md-1">C.W</div>
+                        <div class="col-md-6">Items</div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-6 team">
-                                {% for player in match[:5] %}
-                                    <img src="{{ url_for('static', filename='img/champion/' ~ player['Champion'] ~ '.png') }}" alt="{{ player['Champion'] }}" class="team-icon">
-                                    {% if player['summoner_tag'] %}
-                                        {% set player_name = player['Summoner Name'] ~ '#' ~ player['summoner_tag'] %}
-                                    {% else %}
-                                        {% set player_name = player['Summoner Name'] %}
-                                    {% endif %}
-                                    <a href="/player_stats/{{ player_name.replace('#', '--').replace(' ', '-') }}/{{ match_history_list_sorted[0][0]['SERVER'].lower().replace(' ', '-').replace('&', 'and') }}" class="player-name">
-                                        {{ player_name }}
-                                    </a>
-                                    <br>
-                                {% endfor %}
+                    <!-- Team 1 players detailed stats -->
+                    {% for player in match[:5] %}
+                    <div class="upper-part d-flex flex-row">
+                        <!-- Champion icon -->
+                        <div class="col-md-1">
+                            <img src="{{ get_champion_image_url(player['Champion']) }}"
+                                 alt="{{ player['Champion'] }}"
+                                 class="array-icon-1"
+                                 onerror="this.style.display='none'">
+                        </div>
+
+                        <!-- Runes and Summoner Spells - POPRAWKA: Dodano runy w szczegółach -->
+                        <div class="col-md-1">
+                            <div class="d-flex">
+                                <img src="{{ get_summoner_spell_image_url(player['Summoner Spells'][0][0]) }}"
+                                     alt="Spell1"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
+                                <img src="{{ get_rune_image_url(player['Primary Rune'][0]) }}"
+                                     alt="Primary Rune"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
                             </div>
-                            <div class="col-6 team">
-                                {% for player in match[5:] %}
-                                    <img src="{{ url_for('static', filename='img/champion/' ~ player['Champion'] ~ '.png') }}" alt="{{ player['Champion'] }}" class="team-icon">
-                                    {% if player['summoner_tag'] %}
-                                        {% set player_name = player['Summoner Name'] ~ '#' ~ player['summoner_tag'] %}
-                                    {% else %}
-                                        {% set player_name = player['Summoner Name'] %}
-                                    {% endif %}
-                                    <a href="/player_stats/{{ player_name.replace('#', '--').replace(' ', '-') }}/{{ match_history_list_sorted[0][0]['SERVER'].lower().replace(' ', '-').replace('&', 'and') }}" class="player-name">
-                                        {{ player_name }}
-                                    </a>
-                                    <br>
-                                {% endfor %}
+                            <div class="d-flex">
+                                <img src="{{ get_summoner_spell_image_url(player['Summoner Spells'][1][0]) }}"
+                                     alt="Spell2"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
+                                <img src="{{ get_rune_style_image_url(player['Secondary Rune Path'][0]) }}"
+                                     alt="Secondary Rune"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
                             </div>
                         </div>
-                    </div>
-                    <div class="col button-column">
-                        <button class=" btn-primary btn-color toggle-details" id="All-Player-Button-Match-{{loop.index}}">Show Stats</button>
-                    </div>
-                </div>
-                <div class="row row-margin5px margin-0" hidden>
-                    <div class="col-md-6">
-                        <div class="upper-part d-flex flex-row">
-                            <div class="col-md-2">
-                                C
-                            </div>
-                            <div class="col-md-2">
-                                KDA
-                            </div>
-                            <div class="col-md-1">
-                                CS
-                            </div>
-                            <div class="col-md-1">
-                                C.W
-                            </div>
-                            <div class="col-md-7">
-                            Items
-                            </div>
-                        </div>
-                        {% for player in match[:5] %}
-                        <div class="upper-part d-flex flex-row">
-                            <!-- g1: Champion icon -->
-                            <div class="col-md-1">
-                                <img src="{{ url_for('static', filename='img/champion/' ~ player['Champion'] ~ '.png') }}" alt="{{ player['Champion'] }}" class="array-icon-1">
-                            </div>
-                            <!-- g1: Runes and Summoner Spells -->
-                            <div class="col-md-1">
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='img/spells/summoner/' ~ player['Summoner Spells'][0][0] ~ '.png') }}" alt="Spell1" class="array-icon-2">
-                                    <img src="{{ url_for('static', filename='img/runes_and_shards/' ~ player['Primary Rune'][0] ~ '.png') }}" alt="Primary Rune" class="array-icon-2">
-                                </div>
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='img/spells/summoner/' ~ player['Summoner Spells'][1][0] ~ '.png') }}" alt="Spell2" class="array-icon-2">
-                                    <img src="{{ url_for('static', filename='img/runes_and_shards/' ~ player['Secondary Rune Path'][0] ~ '.png') }}" alt="Secondary Rune" class="array-icon-2">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                {{player['KDA']}}
-                            </div>
-                            <div class="col-md-1">
-                                {{player['CS']}}
-                            </div>
-                            <div class="col-md-1">
-                                {{ player["Control Wards"] }}
-                            </div>
-                            <div class="col-md-7">
+
+                        <!-- KDA -->
+                        <div class="col-md-2">{{ player['KDA'] }}</div>
+
+                        <!-- CS -->
+                        <div class="col-md-1">{{ player['CS'] }}</div>
+
+                        <!-- Control Wards -->
+                        <div class="col-md-1">{{ player["Control Wards"] }}</div>
+
+                        <!-- Items -->
+                        <div class="col-md-6">
                             {% for item in player["Items"] %}
                                 {% if item[0] != 0 %}
-                                    <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="array-icon-1">
+                                    <img src="{{ get_item_image_url(item[0]) }}"
+                                         alt="Item"
+                                         class="array-icon-1"
+                                         onerror="this.classList.add('empty-slot'); this.src='';">
                                 {% else %}
                                     <div class="array-icon-1 empty-slot"></div>
                                 {% endif %}
@@ -166,62 +225,74 @@
                             {% for i in range(7 - items_count) %}
                                 <div class="array-icon-1 empty-slot"></div>
                             {% endfor %}
-                            </div>
-
-
-
                         </div>
-                        {% endfor %}
                     </div>
-                    <div class="col-md-6">
-                         <div class="upper-part d-flex flex-row">
-                            <div class="col-md-2">
-                                C
+                    {% endfor %}
+                </div>
+
+                <!-- Team 2 detailed stats -->
+                <div class="col-md-6">
+                    <!-- Header row -->
+                    <div class="upper-part d-flex flex-row">
+                        <div class="col-md-2">C</div>
+                        <div class="col-md-2">KDA</div>
+                        <div class="col-md-1">CS</div>
+                        <div class="col-md-1">C.W</div>
+                        <div class="col-md-6">Items</div>
+                    </div>
+
+                    <!-- Team 2 players detailed stats -->
+                    {% for player in match[5:] %}
+                    <div class="upper-part d-flex flex-row">
+                        <!-- Champion icon -->
+                        <div class="col-md-1">
+                            <img src="{{ get_champion_image_url(player['Champion']) }}"
+                                 alt="{{ player['Champion'] }}"
+                                 class="array-icon-1"
+                                 onerror="this.style.display='none'">
+                        </div>
+
+                        <!-- Runes and Summoner Spells - POPRAWKA: Dodano runy w szczegółach -->
+                        <div class="col-md-1">
+                            <div class="d-flex">
+                                <img src="{{ get_summoner_spell_image_url(player['Summoner Spells'][0][0]) }}"
+                                     alt="Spell1"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
+                                <img src="{{ get_rune_image_url(player['Primary Rune'][0]) }}"
+                                     alt="Primary Rune"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
                             </div>
-                            <div class="col-md-2">
-                                KDA
-                            </div>
-                            <div class="col-md-1">
-                                CS
-                            </div>
-                            <div class="col-md-1">
-                                C.W
-                            </div>
-                            <div class="col-md-7">
-                            Items
+                            <div class="d-flex">
+                                <img src="{{ get_summoner_spell_image_url(player['Summoner Spells'][1][0]) }}"
+                                     alt="Spell2"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
+                                <img src="{{ get_rune_style_image_url(player['Secondary Rune Path'][0]) }}"
+                                     alt="Secondary Rune"
+                                     class="array-icon-2"
+                                     onerror="this.style.display='none'">
                             </div>
                         </div>
-                        {% for player in match[5:] %}
 
-                        <div class="upper-part d-flex flex-row">
-                            <!-- g1: Champion icon -->
-                            <div class="col-md-1">
-                                <img src="{{ url_for('static', filename='img/champion/' ~ player['Champion'] ~ '.png') }}" alt="{{ player['Champion'] }}" class="array-icon-1">
-                            </div>
-                            <!-- g1: Runes and Summoner Spells -->
-                            <div class="col-md-1">
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='img/spells/summoner/' ~ player['Summoner Spells'][0][0] ~ '.png') }}" alt="Spell1" class="array-icon-2">
-                                    <img src="{{ url_for('static', filename='img/runes_and_shards/' ~ player['Primary Rune'][0] ~ '.png') }}" alt="Primary Rune" class="array-icon-2">
-                                </div>
-                                <div class="d-flex">
-                                    <img src="{{ url_for('static', filename='img/spells/summoner/' ~ player['Summoner Spells'][1][0] ~ '.png') }}" alt="Spell2" class="array-icon-2">
-                                    <img src="{{ url_for('static', filename='img/runes_and_shards/' ~ player['Secondary Rune Path'][0] ~ '.png') }}" alt="Secondary Rune" class="array-icon-2">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                {{player['KDA']}}
-                            </div>
-                            <div class="col-md-1">
-                                {{player['CS']}}
-                            </div>
-                            <div class="col-md-1">
-                                {{ player["Control Wards"] }}
-                            </div>
-                            <div class="col-md-7">
+                        <!-- KDA -->
+                        <div class="col-md-2">{{ player['KDA'] }}</div>
+
+                        <!-- CS -->
+                        <div class="col-md-1">{{ player['CS'] }}</div>
+
+                        <!-- Control Wards -->
+                        <div class="col-md-1">{{ player["Control Wards"] }}</div>
+
+                        <!-- Items -->
+                        <div class="col-md-6">
                             {% for item in player["Items"] %}
                                 {% if item[0] != 0 %}
-                                    <img src="{{ url_for('static', filename='img/item/' ~ item[0] ~ '.png') }}" alt="Item" class="array-icon-1">
+                                    <img src="{{ get_item_image_url(item[0]) }}"
+                                         alt="Item"
+                                         class="array-icon-1"
+                                         onerror="this.classList.add('empty-slot'); this.src='';">
                                 {% else %}
                                     <div class="array-icon-1 empty-slot"></div>
                                 {% endif %}
@@ -230,38 +301,65 @@
                             {% for i in range(7 - items_count) %}
                                 <div class="array-icon-1 empty-slot"></div>
                             {% endfor %}
-                            </div>
-
-
-
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
-
+            </div>
         </div>
-    {% endfor %}
+        {% endfor %}
 
-            <form action="load_more_matches" id="addUpp">
-            <button type="button" class=" btn-primary btn-2" id="loadMoreMatchesButton">Show more</button>
-                <select name="number" id="number-list" class="form-control slt-nr">
-                    <option value="1">1</option>
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
-                </select>
-                <input type="hidden" id="server" name="server" value="{{match_history_list_sorted[0][0]['SERVER']}}">
-                <input type="hidden" id="summonerName" name="summonerName" value="{{match_history_list_sorted[0][0]['summoner_name']}}">
-                <input type="hidden" id="summonerTag" name="summonerTag" value="{{match_history_list_sorted[0][0]['summoner_tag']}}">
+        <!-- Load more matches form -->
+        <form action="load_more_matches" id="addUpp">
+            <button type="button" class="btn-primary btn-2" id="loadMoreMatchesButton">
+                Show more
+            </button>
+            <select name="number" id="number-list" class="form-control slt-nr">
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+            </select>
+            <input type="hidden" id="server" name="server" value="{{match_history_list_sorted[0][0]['SERVER']}}">
+            <input type="hidden" id="summonerName" name="summonerName" value="{{match_history_list_sorted[0][0]['summoner_name']}}">
+            <input type="hidden" id="summonerTag" name="summonerTag" value="{{match_history_list_sorted[0][0]['summoner_tag']}}">
+        </form>
+    </div>
 
-            </form>
-
-</div>
+    <!-- JavaScript modules in correct order -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load modules in dependency order -->
+    <script src="{{ url_for('static', filename='js/cdn-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/toggle-handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/match-renderer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/load-more-handler.js') }}"></script>
     <script src="{{ url_for('static', filename='js/player_history.js') }}"></script>
 
+    <!-- Debug script to test module loading -->
+    <script>
+        console.log('🔍 Checking module loading...');
+        console.log('📁 CDNUtils:', typeof CDNUtils !== 'undefined' ? '✅' : '❌');
+        console.log('📁 ToggleHandler:', typeof ToggleHandler !== 'undefined' ? '✅' : '❌');
+        console.log('📁 MatchRenderer:', typeof MatchRenderer !== 'undefined' ? '✅' : '❌');
+        console.log('📁 LoadMoreHandler:', typeof LoadMoreHandler !== 'undefined' ? '✅' : '❌');
+        console.log('📁 PlayerHistoryApp:', typeof PlayerHistoryApp !== 'undefined' ? '✅' : '❌');
+
+        // Test if any modules failed to load
+        setTimeout(() => {
+            const requiredModules = ['CDNUtils', 'ToggleHandler', 'MatchRenderer', 'LoadMoreHandler'];
+            const missing = requiredModules.filter(module => typeof window[module] === 'undefined');
+
+            if (missing.length > 0) {
+                console.error('❌ Missing modules:', missing);
+                alert(`Some JavaScript modules failed to load: ${missing.join(', ')}. Toggle/Load More may not work properly.`);
+            } else {
+                console.log('✅ All modules loaded successfully');
+            }
+        }, 1000);
+    </script>
 </body>
 </html>

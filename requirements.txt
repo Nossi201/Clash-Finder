@@ -1,7 +1,5 @@
 flask
 requests
-Pillow
-schedule
 aiohttp
 certifi
 selenium
