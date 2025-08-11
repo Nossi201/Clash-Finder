@@ -4,7 +4,6 @@ import re
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 from config import FLASK_SECRET_KEY
-from resource_manager import resource_manager, start_background_updater
 from question import (
     parse_summoner_name,
     get_account_info,
@@ -17,9 +16,43 @@ from question import (
     display_matches_by_value
 )
 
+# Import CDN helper functions
+from cdn_config import (
+    get_image_url,
+    get_champion_image_url,
+    get_item_image_url,
+    get_rune_image_url,
+    get_rune_style_image_url,
+    get_summoner_spell_image_url,
+    get_stat_shard_image_url,
+    get_item_name,
+    get_rune_name,
+    get_rune_style_name,
+    get_summoner_spell_name,
+    get_stat_shard_name,
+    riot_cdn,
+)
+
 app = Flask(__name__)
 app.secret_key = FLASK_SECRET_KEY
-app.register_blueprint(resource_manager)
+
+# Register CDN helper functions for Jinja2 templates
+app.jinja_env.globals.update(
+    # image URLs
+    get_image_url=get_image_url,
+    get_champion_image_url=get_champion_image_url,
+    get_item_image_url=get_item_image_url,
+    get_rune_image_url=get_rune_image_url,
+    get_rune_style_image_url=get_rune_style_image_url,
+    get_summoner_spell_image_url=get_summoner_spell_image_url,
+    get_stat_shard_image_url=get_stat_shard_image_url,
+    # localized names
+    get_item_name=get_item_name,
+    get_rune_name=get_rune_name,
+    get_rune_style_name=get_rune_style_name,
+    get_summoner_spell_name=get_summoner_spell_name,
+    get_stat_shard_name=get_stat_shard_name,
+)
 
 
 def slugify_server(server):
@@ -78,6 +111,70 @@ def clash_team(summoner_name, server):
         return render_template('index.html', error_message=f"Error: {e}", servers=servers_to_region.keys())
 
 
+@app.route('/debug/check-static')
+def debug_check_static():
+    """Debug endpoint to check static files"""
+    import os
+    static_folder = app.static_folder
+    js_path = os.path.join(static_folder, 'js', 'player_history.js')
+
+    return {
+        'static_folder': static_folder,
+        'js_file_exists': os.path.exists(js_path),
+        'js_path': js_path,
+        'static_url_path': app.static_url_path,
+        'files_in_static': os.listdir(static_folder) if os.path.exists(static_folder) else [],
+        'files_in_js': os.listdir(os.path.join(static_folder, 'js')) if os.path.exists(
+            os.path.join(static_folder, 'js')) else []
+    }
+
+
+@app.route('/debug/test-load-more')
+def debug_test_load_more():
+    """Debug endpoint to test load more functionality"""
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Test Load More</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <h1>Test Load More Functionality</h1>
+        <button id="testButton">Test Load More Request</button>
+        <div id="result"></div>
+
+        <script>
+        document.getElementById('testButton').addEventListener('click', async function() {
+            const testData = {
+                current_count: 20,
+                number: 10,
+                server: "eu west",
+                SUMMONER_NAME: "HextechChest",
+                SUMMONER_TAG: "202"
+            };
+
+            try {
+                const response = await fetch('/load_more_matches', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testData)
+                });
+
+                const result = await response.json();
+                document.getElementById('result').innerHTML = 
+                    '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
+        });
+        </script>
+    </body>
+    </html>
+    """
+
+
 @app.route('/load_more_matches', methods=['POST'])
 def load_more_matches():
     """Load additional match entries asynchronously."""
@@ -88,8 +185,24 @@ def load_more_matches():
     base = data.get('SUMMONER_NAME', '')
     tag = data.get('SUMMONER_TAG', '')
 
-    new_matches = display_matches_by_value(base, tag, server, current, number)
-    return jsonify(new_matches)
+    try:
+        new_matches = display_matches_by_value(base, tag, server, current, number)
+
+        if new_matches is None:
+            return jsonify({'error': 'No matches found'}), 404
+
+        # Add server info to first match for JavaScript processing
+        if new_matches and len(new_matches) > 0:
+            if len(new_matches[0]) > 0:
+                new_matches[0][0]['SERVER'] = server
+                new_matches[0][0]['summoner_name'] = base
+                new_matches[0][0]['summoner_tag'] = tag
+
+        return jsonify(new_matches)
+
+    except Exception as e:
+        print(f"Error in load_more_matches: {e}")
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/player_stats/<summoner_name>/<server>')
@@ -114,7 +227,27 @@ def jinja_slugify_server(s):
     return slugify_server(s)
 
 
+# CDN Debug endpoints (tylko dla developmentu)
+@app.route('/api/cdn/test')
+def test_cdn():
+    """Test endpoint to verify CDN functionality"""
+    try:
+        version = riot_cdn.get_current_version()
+        champion_url = riot_cdn.get_champion_url("Aatrox")
+        item_url = riot_cdn.get_item_url(1001)
+
+        return jsonify({
+            'status': 'success',
+            'version': version,
+            'sample_urls': {
+                'champion': champion_url,
+                'item': item_url
+            }
+        })
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
 if __name__ == "__main__":
-    """Start the background updater and run the Flask application."""
-    start_background_updater()
+    """Start the Flask application."""
     app.run(debug=True)
