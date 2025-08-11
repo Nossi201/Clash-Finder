@@ -44,12 +44,10 @@ class TestShowMoreMatches:
         self.driver.get(BASE_URL)
         self.driver.set_window_size(1936, 1096)
 
-        # Page ready
         self.wait.until(EC.title_is("Player History"))
         self.wait.until(EC.presence_of_element_located((By.ID, "number-list")))
         self.wait.until(EC.presence_of_element_located((By.ID, "loadMoreMatchesButton")))
 
-        # Initial count
         initial_count = len(self.driver.find_elements(By.CSS_SELECTOR, ".card.mb-3"))
 
         # Load +1
