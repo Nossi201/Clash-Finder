@@ -1,0 +1,12 @@
+# .dockerignore
+.git
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.env
+.venv/
+dist/
+build/
+node_modules/
+.cache/

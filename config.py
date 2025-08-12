@@ -1,7 +1,6 @@
 # config.py
-# Configuration file for API keys and other settings
-
-RIOT_API_KEY = "*******"
-
-
-FLASK_SECRET_KEY = "741c774bea68cf84a2f57df5b2291528f8eb6eff73e99d5d5779e659ca5a24d9"
+import os
+RIOT_API_KEY = os.getenv("RIOT_API_KEY", "")
+FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY", os.urandom(32).hex())
+REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
+DEFAULT_CACHE_TTL = int(os.getenv("DEFAULT_CACHE_TTL", "60"))

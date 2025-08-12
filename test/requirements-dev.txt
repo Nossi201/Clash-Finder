@@ -1,0 +1,4 @@
+# test/requirements-dev.txt
+-r ../requirements.txt
+pytest==8.2.2
+selenium==4.22.0

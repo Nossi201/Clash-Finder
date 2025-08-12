@@ -1,0 +1,38 @@
+# test/docker-compose.tests.yml
+# Standalone test stack for Docker Desktop (and CLI) using extends from the base compose.
+services:
+  tests:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile.tests
+    env_file: ../.env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: "/app"
+      BASE_URL: "http://host.docker.internal:8080"
+    volumes:
+      - ..:/app:ro
+    command: ["pytest", "-q", "-c", "test/pytest.ini"]
+    restart: "no"
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    shm_size: "2gb"
+
+  tests-e2e:
+    build:
+      context: ..
+      dockerfile: test/Dockerfile.tests
+    env_file: ../.env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: "/app"
+      BASE_URL: "http://host.docker.internal:8080"
+      SELENIUM_REMOTE_URL: "http://selenium:4444/wd/hub"
+    depends_on:
+      selenium:
+        condition: service_started
+    volumes:
+      - ..:/app:ro
+    command: ["pytest", "-q", "-c", "test/pytest.ini", "test/selenium"]
+    restart: "no"

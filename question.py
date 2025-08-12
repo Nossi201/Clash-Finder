@@ -1,4 +1,4 @@
-# question.py — full, app.py‑compatible version
+# question.py
 # NOTE: Keep code in English. Polish only in chat.
 
 import datetime

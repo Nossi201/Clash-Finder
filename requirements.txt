@@ -1,7 +1,6 @@
-flask
-requests
-aiohttp
-certifi
-selenium
-pytest
-pytest-asyncio
+Flask==2.3.3
+gunicorn==23.0.0
+requests==2.32.3
+aiohttp==3.9.5
+certifi==2024.7.4
+redis==5.0.7
