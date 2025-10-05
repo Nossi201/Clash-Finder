@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}404 - Strona nie znaleziona{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-icon">🔍</div>
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Strona nie znaleziona</h2>
+        <p class="error-message">
+            Przepraszamy, ale strona której szukasz nie istnieje lub została przeniesiona.
+        </p>
+
+        <div class="error-actions">
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                🏠 Powrót do strony głównej
+            </a>
+            <button onclick="history.back()" class="btn btn-secondary">
+                ← Wróć
+            </button>
+        </div>
+
+        <div class="error-suggestions">
+            <h3>Możesz spróbować:</h3>
+            <ul>
+                <li>Sprawdzić adres URL pod kątem literówek</li>
+                <li>Wrócić do poprzedniej strony</li>
+                <li>Użyć wyszukiwarki na stronie głównej</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.error-content {
+    background: white;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: #4a90e2;
+    margin: 0;
+    line-height: 1;
+}
+
+.error-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1rem 0;
+}
+
+.error-message {
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.error-suggestions {
+    text-align: left;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.error-suggestions h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.error-suggestions ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.error-suggestions li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+@media (max-width: 576px) {
+    .error-code {
+        font-size: 4rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}

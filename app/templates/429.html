@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}429 - Zbyt wiele żądań{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-icon">🚦</div>
+        <h1 class="error-code">429</h1>
+        <h2 class="error-title">Zbyt wiele żądań</h2>
+        <p class="error-message">
+            Przekroczono limit żądań. Prosimy o chwilę przerwy przed kolejnym wyszukiwaniem.
+        </p>
+
+        {% if retry_after %}
+        <div class="retry-info">
+            <p>Spróbuj ponownie za:</p>
+            <div class="countdown" id="countdown">
+                <span id="countdown-value">{{ retry_after }}</span> sekund
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="error-actions">
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                🏠 Powrót do strony głównej
+            </a>
+            <button onclick="location.reload()" class="btn btn-secondary" id="reload-btn" disabled>
+                🔄 Odśwież stronę
+            </button>
+        </div>
+
+        <div class="error-suggestions">
+            <h3>Limity zapytań:</h3>
+            <ul>
+                <li><strong>15 żądań</strong> na minutę</li>
+                <li><strong>150 żądań</strong> na godzinę</li>
+            </ul>
+            <p class="rate-limit-note">
+                Te limity pomagają zapewnić dostępność serwisu dla wszystkich użytkowników.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Countdown timer
+(function() {
+    {% if retry_after %}
+    let seconds = {{ retry_after }};
+    const countdownElement = document.getElementById('countdown-value');
+    const reloadButton = document.getElementById('reload-btn');
+
+    const countdown = setInterval(function() {
+        seconds--;
+
+        if (seconds <= 0) {
+            clearInterval(countdown);
+            countdownElement.textContent = '0';
+            reloadButton.disabled = false;
+            reloadButton.classList.add('btn-primary');
+            reloadButton.classList.remove('btn-secondary');
+
+            // Auto reload after countdown
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        } else {
+            countdownElement.textContent = seconds;
+        }
+    }, 1000);
+    {% endif %}
+})();
+</script>
+
+<style>
+.error-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.error-content {
+    background: white;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: #ffc107;
+    margin: 0;
+    line-height: 1;
+}
+
+.error-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1rem 0;
+}
+
+.error-message {
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.retry-info {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.retry-info p {
+    margin: 0 0 1rem 0;
+    color: #856404;
+    font-weight: 600;
+}
+
+.countdown {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #856404;
+}
+
+#countdown-value {
+    display: inline-block;
+    min-width: 3rem;
+    text-align: center;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.error-actions .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.error-suggestions {
+    text-align: left;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.error-suggestions h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.error-suggestions ul {
+    margin: 0 0 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.error-suggestions li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.rate-limit-note {
+    margin: 1rem 0 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 576px) {
+    .error-code {
+        font-size: 4rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .countdown {
+        font-size: 1.5rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}

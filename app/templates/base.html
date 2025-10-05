@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>{% block title %}Clash Finder - League of Legends{% endblock %}</title>
+
+    <meta name="description" content="{% block description %}Sprawdź statystyki graczy League of Legends i znajdź drużyny Clash{% endblock %}">
+    <meta name="keywords" content="League of Legends, LoL, Clash, statystyki, rankingi, riot api">
+    <meta name="author" content="Clash Finder">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_css %}{% endblock %}
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-content">
+                    <a href="{{ url_for('main.index') }}" class="navbar-brand">
+                        <span class="brand-icon">🎮</span>
+                        <span class="brand-text">Clash Finder</span>
+                    </a>
+
+                    <div class="navbar-menu">
+                        <a href="{{ url_for('main.index') }}" class="nav-link">
+                            Strona Główna
+                        </a>
+                        <a href="https://developer.riotgames.com/" target="_blank" class="nav-link">
+                            Riot API
+                        </a>
+                        {% if debug %}
+                        <a href="/debug/config" class="nav-link nav-link-debug">
+                            Debug
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Clash Finder</h3>
+                    <p>Sprawdź statystyki graczy League of Legends</p>
+                    <p class="version">v{{ app_version }}</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Linki</h4>
+                    <ul class="footer-links">
+                        <li><a href="{{ url_for('main.index') }}">Strona Główna</a></li>
+                        <li><a href="https://developer.riotgames.com/" target="_blank">Riot API</a></li>
+                        <li><a href="https://github.com/yourusername/clash-finder" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Regiony</h4>
+                    <ul class="footer-links">
+                        <li>EUW - Europe West</li>
+                        <li>EUNE - Europe Nordic & East</li>
+                        <li>NA - North America</li>
+                        <li>KR - Korea</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="disclaimer">
+                    Clash Finder nie jest oficjalnie powiązany z Riot Games.
+                    League of Legends i Riot Games są znakami towarowymi lub zastrzeżonymi
+                    znakami towarowymi Riot Games, Inc.
+                </p>
+                <p class="copyright">
+                    &copy; {{ now.year if now else '2024' }} Clash Finder. Wszystkie prawa zastrzeżone.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        <span class="flash-text">{{ message }}</span>
+                        <button class="flash-close" onclick="this.parentElement.remove()">×</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

@@ -1,0 +1,393 @@
+/* app/static/css/match_card.css */
+/**
+ * Match Card Styles
+ * Styles for player match history cards
+ */
+
+/* Match Card Base */
+.match-card {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.match-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.match-win {
+    border-left: 4px solid #28a745;
+}
+
+.match-loss {
+    border-left: 4px solid #dc3545;
+}
+
+/* Result Banner */
+.match-result-banner {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.match-win .match-result-banner {
+    background: linear-gradient(90deg, #d4edda 0%, #f8f9fa 100%);
+}
+
+.match-loss .match-result-banner {
+    background: linear-gradient(90deg, #f8d7da 0%, #f8f9fa 100%);
+}
+
+.match-result-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.result-text {
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.match-win .result-text {
+    color: #155724;
+}
+
+.match-loss .result-text {
+    color: #721c24;
+}
+
+.queue-type {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.875rem;
+}
+
+.match-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Your Player Section */
+.your-player-section {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.champion-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.champion-icon-large {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.champion-icon-large img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.champion-level {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: #333;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    border: 2px solid white;
+}
+
+.champion-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #212529;
+}
+
+.summoner-spells {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.spell-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+}
+
+.player-stats-summary {
+    display: flex;
+    gap: 3rem;
+    flex: 1;
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.kda-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.kda-numbers {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.kda-ratio {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-transform: uppercase;
+}
+
+.items-row {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.item-slot {
+    width: 36px;
+    height: 36px;
+}
+
+.item-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.item-empty {
+    width: 100%;
+    height: 100%;
+    background: #e9ecef;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+/* All Players Section */
+.all-players-section {
+    padding: 1rem;
+}
+
+.teams-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.team-column {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.team-blue {
+    border: 2px solid #0d6efd;
+}
+
+.team-red {
+    border: 2px solid #dc3545;
+}
+
+.team-victory {
+    background: #d4edda;
+}
+
+.team-defeat {
+    background: #f8d7da;
+}
+
+.team-header {
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.team-blue .team-header {
+    background: #0d6efd;
+    color: white;
+}
+
+.team-red .team-header {
+    background: #dc3545;
+    color: white;
+}
+
+.team-players {
+    background: white;
+}
+
+.player-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid #e9ecef;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.player-row:hover {
+    background: #f8f9fa;
+}
+
+.player-row:last-child {
+    border-bottom: none;
+}
+
+.searched-player {
+    background: #fff3cd;
+    font-weight: 600;
+}
+
+.searched-player:hover {
+    background: #ffe69c;
+}
+
+.player-champion {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.champion-icon-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.player-name {
+    font-size: 0.875rem;
+    color: #212529;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-kda {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #495057;
+    text-align: center;
+}
+
+.player-cs {
+    font-size: 0.875rem;
+    color: #6c757d;
+    text-align: center;
+}
+
+.player-items-mini {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+}
+
+.item-icon-tiny {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+}
+
+/* Player name link styles */
+.player-name-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.15rem;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.player-name-link:hover {
+    color: #0d6efd;
+}
+
+.player-name-link:hover .player-name {
+    text-decoration: underline;
+}
+
+.player-tag {
+    font-size: 0.75rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.player-name-link:hover .player-tag {
+    color: #0d6efd;
+}
+
+.searched-player .player-name-link {
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .teams-container {
+        grid-template-columns: 1fr;
+    }
+
+    .your-player-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .player-stats-summary {
+        width: 100%;
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 768px) {
+    .player-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+
+    .player-kda,
+    .player-cs,
+    .player-items-mini {
+        text-align: left;
+        justify-content: flex-start;
+    }
+}

@@ -1,0 +1,308 @@
+[2025-10-04 23:54:28] ERROR [services.riot_api:149] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:54:28] ERROR [services.riot_api:179] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:55:55] ERROR [services.riot_api:149] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:55:55] ERROR [services.riot_api:179] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:56:48] ERROR [services.riot_api:149] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Caps/EUW | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Caps/EUW
+[2025-10-04 23:56:48] ERROR [services.riot_api:179] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Caps/EUW
+[2025-10-04 23:59:49] ERROR [services.riot_api:149] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:59:49] ERROR [services.riot_api:179] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:59:59] ERROR [services.riot_api:149] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-04 23:59:59] ERROR [services.riot_api:179] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:03:41] ERROR [services.riot_api:153] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:03:41] ERROR [services.riot_api:183] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:05:34] ERROR [services.riot_api:157] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:05:34] ERROR [services.riot_api:187] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:07:13] ERROR [services.riot_api:149] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:07:13] ERROR [services.riot_api:179] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:10:20] ERROR [services.riot_api:147] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:10:20] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:13:06] ERROR [services.riot_api:147] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:13:06] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:14:48] ERROR [services.riot_api:147] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:14:48] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:15:55] ERROR [services.riot_api:147] Request error | URL: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1 | Error: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:15:55] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Faker/KR1
+[2025-10-05 00:16:52] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: dict object has no element 0
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 8, in top-level template code
+    <title>{% block title %}Clash Finder - League of Legends{% endblock %}</title>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 3, in block 'title'
+    {% block title %}{{ match_history_list_sorted[0][0].summoner_name }} - Historia Meczów{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: dict object has no element 0
+[2025-10-05 00:21:08] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: dict object has no element 0
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 8, in top-level template code
+    <title>{% block title %}Clash Finder - League of Legends{% endblock %}</title>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 3, in block 'title'
+    {% block title %}{{ match_history_list_sorted[0][0].summoner_name }} - Historia Meczów{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: dict object has no element 0
+[2025-10-05 00:21:49] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: dict object has no element 0
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 8, in top-level template code
+    <title>{% block title %}Clash Finder - League of Legends{% endblock %}</title>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 3, in block 'title'
+    {% block title %}{{ match_history_list_sorted[0][0].summoner_name }} - Historia Meczów{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: dict object has no element 0
+[2025-10-05 00:23:11] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: components/match_card.html
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 51, in block 'content'
+    {% include 'components/match_card.html' %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_explained(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 89, in _get_source_explained
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: components/match_card.html
+[2025-10-05 00:23:43] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: 'format_damage' is undefined
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 51, in block 'content'
+    {% include 'components/match_card.html' %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\components\match_card.html", line 72, in top-level template code
+    <span class="stat-value">{{ format_damage(match.totalDamageDealtToChampions or 0) }}</span>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'format_damage' is undefined
+[2025-10-05 00:23:56] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: 'format_damage' is undefined
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 51, in block 'content'
+    {% include 'components/match_card.html' %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\components\match_card.html", line 72, in top-level template code
+    <span class="stat-value">{{ format_damage(match.totalDamageDealtToChampions or 0) }}</span>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'format_damage' is undefined
+[2025-10-05 18:38:11] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: unsupported operand type(s) for -: 'datetime.datetime' and 'int'
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 51, in block 'content'
+    {% include 'components/match_card.html' %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\components\match_card.html", line 14, in top-level template code
+    <span class="match-date">{{ time_ago(match.get('gameCreation', 0)) if match.get('gameCreation') else 'Unknown' }}</span>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\utils\helpers.py", line 327, in time_ago
+    diff = now - dt
+           ~~~~^~~~
+TypeError: unsupported operand type(s) for -: 'datetime.datetime' and 'int'
+[2025-10-05 18:39:29] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: unsupported operand type(s) for -: 'datetime.datetime' and 'int'
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 51, in block 'content'
+    {% include 'components/match_card.html' %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\components\match_card.html", line 14, in top-level template code
+    <span class="match-date">{{ time_ago(match.get('gameCreation', 0)) if match.get('gameCreation') else 'Unknown' }}</span>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\utils\helpers.py", line 327, in time_ago
+    diff = now - dt
+           ~~~~^~~~
+TypeError: unsupported operand type(s) for -: 'datetime.datetime' and 'int'
+[2025-10-05 21:44:22] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: block 'extra_css' defined twice
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 149, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 7, in template
+    {% block extra_css %}
+jinja2.exceptions.TemplateAssertionError: block 'extra_css' defined twice
+[2025-10-05 21:45:23] ERROR [routes.player:174] Error in Player: Faker#KR1, Server: KR: dict object has no element 0
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 70, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 8, in top-level template code
+    <title>{% block title %}Clash Finder - League of Legends{% endblock %}</title>
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 3, in block 'title'
+    {% block title %}{{ match_history_list_sorted[0][0].summoner_name if match_history_list_sorted and match_history_list_sorted[0] else 'Player' }} - Historia Meczów{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: dict object has no element 0

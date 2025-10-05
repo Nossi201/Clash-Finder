@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Błąd serwera{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-content">
+        <div class="error-icon">⚠️</div>
+        <h1 class="error-code">500</h1>
+        <h2 class="error-title">Wewnętrzny błąd serwera</h2>
+        <p class="error-message">
+            Przepraszamy, coś poszło nie tak po naszej stronie.
+            Nasz team już pracuje nad rozwiązaniem problemu.
+        </p>
+
+        <div class="error-actions">
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                🏠 Powrót do strony głównej
+            </a>
+            <button onclick="location.reload()" class="btn btn-secondary">
+                🔄 Odśwież stronę
+            </button>
+        </div>
+
+        <div class="error-suggestions">
+            <h3>Co możesz zrobić:</h3>
+            <ul>
+                <li>Odśwież stronę za kilka sekund</li>
+                <li>Wyczyść cache przeglądarki</li>
+                <li>Sprawdź czy problem nadal występuje za chwilę</li>
+                <li>Skontaktuj się z nami jeśli problem się powtarza</li>
+            </ul>
+        </div>
+
+        {% if debug %}
+        <div class="error-debug">
+            <h3>Debug Info:</h3>
+            <pre>{{ error_details }}</pre>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.error-container {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.error-content {
+    background: white;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: #dc3545;
+    margin: 0;
+    line-height: 1;
+}
+
+.error-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1rem 0;
+}
+
+.error-message {
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.error-suggestions {
+    text-align: left;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.error-suggestions h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.error-suggestions ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.error-suggestions li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.error-debug {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.error-debug h3 {
+    color: #f8f8f2;
+    margin-bottom: 1rem;
+}
+
+.error-debug pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 576px) {
+    .error-code {
+        font-size: 4rem;
+    }
+
+    .error-title {
+        font-size: 1.5rem;
+    }
+
+    .error-actions {
+        flex-direction: column;
+    }
+
+    .error-actions .btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}

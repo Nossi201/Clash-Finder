@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}Drużyna Clash - {{ players_team[0].summonerName if players_team else 'Clash Finder' }}{% endblock %}
+
+{% block content %}
+<div class="clash-container">
+    <!-- Header -->
+    <div class="clash-header">
+        <h1 class="clash-title">
+            <span class="title-icon">⚔️</span>
+            Drużyna Clash
+        </h1>
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+            ← Powrót do wyszukiwania
+        </a>
+    </div>
+
+    {% if players_team %}
+    <!-- Team Card -->
+    <div class="team-card">
+        <div class="team-header">
+            <div class="team-info">
+                <h2 class="team-name">{{ players_team[0].teamName or 'Drużyna Clash' }}</h2>
+                <p class="team-tier">Tier: {{ players_team[0].tier or 'N/A' }}</p>
+            </div>
+            <div class="team-badge">
+                <div class="badge-icon">🏆</div>
+            </div>
+        </div>
+
+        <!-- Players List -->
+        <div class="players-list">
+            <h3 class="section-title">Członkowie drużyny</h3>
+
+            <div class="players-grid">
+                {% for player in players_team %}
+                <div class="player-card">
+                    <div class="player-header">
+                        <div class="player-avatar">
+                            <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/profileicon/{{ player.profileIconId or 0 }}.png"
+                                 alt="{{ player.summonerName }}">
+                        </div>
+                        <div class="player-info">
+                            <h4 class="player-name">
+                                {{ player.summonerName }}
+                                {% if player.summonerTag %}
+                                    <span class="player-tag">#{{ player.summonerTag }}</span>
+                                {% endif %}
+                            </h4>
+                            <p class="player-role">
+                                {{ player.position or player.role or 'Role nieznana' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    {% if player.tier %}
+                    <div class="player-rank">
+                        <span class="rank-badge">{{ player.tier }} {{ player.rank or '' }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Tournament Info -->
+        {% if players_team[0].tournamentId %}
+        <div class="tournament-info">
+            <h3 class="section-title">Informacje o turnieju</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">ID Turnieju</span>
+                    <span class="info-value">{{ players_team[0].tournamentId }}</span>
+                </div>
+                {% if players_team[0].wins is defined %}
+                <div class="info-item">
+                    <span class="info-label">Wygrane</span>
+                    <span class="info-value">{{ players_team[0].wins or 0 }}</span>
+                </div>
+                {% endif %}
+                {% if players_team[0].losses is defined %}
+                <div class="info-item">
+                    <span class="info-label">Przegrane</span>
+                    <span class="info-value">{{ players_team[0].losses or 0 }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <!-- No Team Found -->
+    <div class="alert alert-info">
+        <span class="alert-icon">ℹ️</span>
+        <span class="alert-text">Ten gracz nie jest obecnie w żadnej drużynie Clash.</span>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+/* Clash Container */
+.clash-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Header */
+.clash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.clash-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.title-icon {
+    font-size: 3rem;
+}
+
+/* Team Card */
+.team-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.team-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.team-tier {
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+.team-badge {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-icon {
+    font-size: 3rem;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+    padding: 0 2rem;
+    padding-top: 2rem;
+}
+
+/* Players Grid */
+.players-list {
+    padding-bottom: 2rem;
+}
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0 2rem;
+}
+
+/* Player Card */
+.player-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.player-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.player-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #667eea;
+}
+
+.player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.player-tag {
+    color: #888;
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+.player-role {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+}
+
+.player-rank {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.rank-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Tournament Info */
+.tournament-info {
+    background: #f8f9fa;
+    padding-bottom: 2rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 0 2rem;
+}
+
+.info-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.info-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #888;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.info-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Alert */
+.alert-info {
+    background: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.alert-icon {
+    font-size: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .clash-title {
+        font-size: 2rem;
+    }
+
+    .title-icon {
+        font-size: 2.5rem;
+    }
+
+    .team-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .team-name {
+        font-size: 1.5rem;
+    }
+
+    .players-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .clash-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+{% endblock %}
