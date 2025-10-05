@@ -1,6 +1,6 @@
 /* app/static/css/player_history.css */
 /**
- * Player History Page Styles
+ * Player History Page Styles with theme support
  */
 
 /* Container */
@@ -17,12 +17,12 @@
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--card-shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2rem;
     flex-wrap: wrap;
-    gap: 1rem;
 }
 
 .player-info {
@@ -62,58 +62,50 @@
     font-size: 1rem;
 }
 
-.player-header .btn-secondary {
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    color: white;
-}
-
-.player-header .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.8);
-}
-
-/* Stats Summary */
-.stats-summary {
+/* Stats Summary in Header */
+.stats-summary-header {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
-    margin-bottom: 2rem;
+    min-width: 500px;
 }
 
-.stat-card {
-    background: white;
-    padding: 1.5rem;
+.stat-card-header {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 1rem 1.25rem;
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s, background 0.2s;
 }
 
-.stat-card:hover {
+.stat-card-header:hover {
     transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
 }
 
-.stat-card.stat-win {
-    border-left: 4px solid #28a745;
+.stat-card-header.stat-win-header {
+    border-left: 4px solid #4ade80;
 }
 
-.stat-card.stat-loss {
-    border-left: 4px solid #dc3545;
+.stat-card-header.stat-loss-header {
+    border-left: 4px solid #f87171;
 }
 
-.stat-value {
-    font-size: 2rem;
+.stat-value-header {
+    font-size: 1.75rem;
     font-weight: 700;
-    color: #333;
+    color: white;
     margin-bottom: 0.25rem;
 }
 
-.stat-label {
-    font-size: 0.875rem;
-    color: #666;
+.stat-label-header {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 /* Match List */
@@ -159,7 +151,7 @@
 .spinner-large {
     width: 40px;
     height: 40px;
-    border: 4px solid #f0f0f0;
+    border: 4px solid var(--border-primary);
     border-top-color: #4a90e2;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -174,9 +166,9 @@
 .no-matches {
     text-align: center;
     padding: 4rem 2rem;
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--card-shadow);
 }
 
 .no-matches-icon {
@@ -186,21 +178,32 @@
 
 .no-matches h2 {
     font-size: 1.75rem;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
 .no-matches p {
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 2rem;
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .stats-summary-header {
+        grid-template-columns: repeat(2, 1fr);
+        min-width: auto;
+    }
+}
+
 @media (max-width: 768px) {
     .player-header {
         flex-direction: column;
         align-items: flex-start;
         padding: 1.5rem;
+    }
+
+    .player-info {
+        width: 100%;
     }
 
     .player-name {
@@ -212,7 +215,12 @@
         height: 60px;
     }
 
-    .stats-summary {
+    .stats-summary-header {
+        width: 100%;
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-value-header {
+        font-size: 1.5rem;
     }
 }

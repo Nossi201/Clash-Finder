@@ -1,0 +1,128 @@
+/* app/static/css/theme.css */
+/**
+ * Theme System - Dark/Light Mode
+ */
+
+:root {
+    /* Light Mode Colors */
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8f9fa;
+
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --text-tertiary: #888888;
+
+    --border-primary: #e0e0e0;
+    --border-secondary: #dee2e6;
+
+    /* Buttons Light Mode */
+    --btn-bg: #FEFEFE;
+    --btn-border: #ECECEC;
+    --btn-hover: #FAFAFA;
+
+    /* Cards */
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Match Cards */
+    --match-win-bg: #d4edda;
+    --match-loss-bg: #f8d7da;
+    --match-card-border: #e0e0e0;
+
+    /* Stats */
+    --stat-card-bg: #ffffff;
+    --stat-highlight: #f8f9fa;
+
+    /* Header */
+    --header-bg: #ffffff;
+    --nav-link-hover: #f0f7ff;
+
+    /* Player Section */
+    --player-section-bg: #f8f9fa;
+    --player-section-hover: #e9ecef;
+}
+
+[data-theme="dark"] {
+    /* Dark Mode Colors */
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2a2a2a;
+    --bg-tertiary: #222222;
+
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #888888;
+
+    --border-primary: #404040;
+    --border-secondary: #4a4a4a;
+
+    /* Buttons Dark Mode */
+    --btn-bg: #373737;
+    --btn-border: #3F3F3F;
+    --btn-hover: #3C3C3C;
+
+    /* Cards */
+    --card-bg: #2a2a2a;
+    --card-shadow: rgba(0, 0, 0, 0.3);
+
+    /* Match Cards */
+    --match-win-bg: #1a3a1a;
+    --match-loss-bg: #3a1a1a;
+    --match-card-border: #404040;
+
+    /* Stats */
+    --stat-card-bg: #2a2a2a;
+    --stat-highlight: #333333;
+
+    /* Header */
+    --header-bg: #2a2a2a;
+    --nav-link-hover: #333333;
+
+    /* Player Section */
+    --player-section-bg: #222222;
+    --player-section-hover: #2a2a2a;
+}
+
+/* Apply theme variables */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--btn-bg);
+    border: 2px solid var(--btn-border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    z-index: 1000;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px var(--card-shadow);
+}
+
+.theme-toggle:hover {
+    background: var(--btn-hover);
+    transform: scale(1.1);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-icon {
+    transition: transform 0.3s;
+}
+
+[data-theme="dark"] .theme-icon {
+    transform: rotate(180deg);
+}

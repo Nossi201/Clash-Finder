@@ -1,6 +1,6 @@
 /* app/static/css/clash_team.css */
 /**
- * Clash Team Page Styles
+ * Clash Team Page Styles with theme support
  */
 
 /* Clash Container */
@@ -23,7 +23,7 @@
 .clash-title {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -35,9 +35,9 @@
 
 /* Team Card */
 .team-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--card-shadow);
     overflow: hidden;
 }
 
@@ -79,7 +79,7 @@
 .section-title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     padding: 0 2rem;
     padding-top: 2rem;
@@ -99,7 +99,7 @@
 
 /* Player Card */
 .player-card {
-    background: #f8f9fa;
+    background: var(--stat-highlight);
     border-radius: 8px;
     padding: 1.5rem;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -107,7 +107,7 @@
 
 .player-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px var(--card-shadow);
 }
 
 .player-header {
@@ -134,12 +134,12 @@
 .player-name {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-primary);
     margin-bottom: 0.25rem;
 }
 
 .player-tag {
-    color: #888;
+    color: var(--text-tertiary);
     font-weight: 400;
     font-size: 0.875rem;
 }
@@ -154,7 +154,7 @@
 .player-rank {
     text-align: center;
     padding-top: 1rem;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--border-primary);
 }
 
 .rank-badge {
@@ -169,7 +169,7 @@
 
 /* Tournament Info */
 .tournament-info {
-    background: #f8f9fa;
+    background: var(--stat-highlight);
     padding-bottom: 2rem;
 }
 
@@ -181,17 +181,17 @@
 }
 
 .info-item {
-    background: white;
+    background: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px var(--card-shadow);
 }
 
 .info-label {
     display: block;
     font-size: 0.875rem;
-    color: #888;
+    color: var(--text-tertiary);
     margin-bottom: 0.5rem;
     text-transform: uppercase;
     font-weight: 600;
@@ -201,14 +201,14 @@
     display: block;
     font-size: 1.5rem;
     font-weight: 700;
-    color: #333;
+    color: var(--text-primary);
 }
 
 /* Alert */
 .alert-info {
-    background: #d1ecf1;
-    border: 1px solid #bee5eb;
-    color: #0c5460;
+    background: var(--stat-highlight);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
     padding: 1.5rem;
     border-radius: 8px;
     display: flex;

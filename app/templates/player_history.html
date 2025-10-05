@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="player-history-container">
-    <!-- Player Header -->
+    <!-- Player Header with Stats -->
     {% if match_history_list_sorted %}
     {% set first_match = match_history_list_sorted[0] %}
     <div class="player-header">
@@ -28,37 +28,32 @@
             </div>
         </div>
 
-        <!-- Back Button -->
-        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
-            ← Powrót do wyszukiwania
-        </a>
-    </div>
+        <!-- Match Statistics Summary (in same row) -->
+        <div class="stats-summary-header">
+            {% set total_matches = match_history_list_sorted|length %}
+            {% set wins = match_history_list_sorted|selectattr('win', 'equalto', True)|list|length %}
+            {% set losses = total_matches - wins %}
+            {% set win_rate = (wins / total_matches * 100)|round(1) if total_matches > 0 else 0 %}
 
-    <!-- Match Statistics Summary -->
-    <div class="stats-summary">
-        {% set total_matches = match_history_list_sorted|length %}
-        {% set wins = match_history_list_sorted|selectattr('win', 'equalto', True)|list|length %}
-        {% set losses = total_matches - wins %}
-        {% set win_rate = (wins / total_matches * 100)|round(1) if total_matches > 0 else 0 %}
+            <div class="stat-card-header">
+                <div class="stat-value-header">{{ total_matches }}</div>
+                <div class="stat-label-header">Meczów</div>
+            </div>
 
-        <div class="stat-card">
-            <div class="stat-value">{{ total_matches }}</div>
-            <div class="stat-label">Meczów</div>
-        </div>
+            <div class="stat-card-header stat-win-header">
+                <div class="stat-value-header">{{ wins }}W</div>
+                <div class="stat-label-header">Wygrane</div>
+            </div>
 
-        <div class="stat-card stat-win">
-            <div class="stat-value">{{ wins }}W</div>
-            <div class="stat-label">Wygrane</div>
-        </div>
+            <div class="stat-card-header stat-loss-header">
+                <div class="stat-value-header">{{ losses }}L</div>
+                <div class="stat-label-header">Przegrane</div>
+            </div>
 
-        <div class="stat-card stat-loss">
-            <div class="stat-value">{{ losses }}L</div>
-            <div class="stat-label">Przegrane</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-value">{{ win_rate }}%</div>
-            <div class="stat-label">Winrate</div>
+            <div class="stat-card-header">
+                <div class="stat-value-header">{{ win_rate }}%</div>
+                <div class="stat-label-header">Winrate</div>
+            </div>
         </div>
     </div>
 

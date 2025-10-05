@@ -1,6 +1,6 @@
 /* app/static/css/index.css */
 /**
- * Index/Home Page Styles
+ * Index/Home Page Styles with theme support
  */
 
 /* Search Container */
@@ -19,7 +19,7 @@
 .hero-title {
     font-size: 3rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text-primary);
     margin-bottom: 1rem;
 }
 
@@ -31,7 +31,7 @@
 
 .hero-subtitle {
     font-size: 1.25rem;
-    color: #666;
+    color: var(--text-secondary);
     font-weight: 400;
 }
 
@@ -46,9 +46,9 @@
 }
 
 .alert-error {
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
+    background: var(--match-loss-bg);
+    border: 1px solid var(--danger);
+    color: var(--text-primary);
 }
 
 .alert-icon {
@@ -57,10 +57,10 @@
 
 /* Search Form */
 .search-form {
-    background: white;
+    background: var(--card-bg);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--card-shadow);
     margin-bottom: 3rem;
 }
 
@@ -72,17 +72,19 @@
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .form-input,
 .form-select {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-primary);
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.2s;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 }
 
 .form-input:focus,
@@ -92,7 +94,7 @@
 }
 
 .form-input::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
 }
 
 /* Radio Options */
@@ -112,11 +114,13 @@
 .radio-label {
     display: block;
     padding: 1rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-primary);
     border-radius: 8px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s;
+    background: var(--card-bg);
+    color: var(--text-primary);
 }
 
 .radio-option input[type="radio"]:checked + .radio-label {
@@ -161,11 +165,11 @@
 }
 
 .info-card {
-    background: white;
+    background: var(--card-bg);
     padding: 2rem;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--card-shadow);
     transition: transform 0.2s;
 }
 
@@ -182,11 +186,11 @@
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .info-card p {
-    color: #666;
+    color: var(--text-secondary);
     line-height: 1.6;
 }
 
@@ -200,7 +204,7 @@
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 2rem;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .examples-grid {
@@ -210,7 +214,7 @@
 }
 
 .example-card {
-    background: #f8f9fa;
+    background: var(--stat-highlight);
     padding: 1.5rem;
     border-radius: 8px;
     display: flex;

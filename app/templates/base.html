@@ -14,7 +14,8 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 
-    <!-- CSS -->
+    <!-- CSS - THEME MUST BE FIRST -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block extra_css %}{% endblock %}
@@ -66,59 +67,47 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Clash Finder</h3>
-                    <p>Sprawdź statystyki graczy League of Legends</p>
-                    <p class="version">v{{ app_version }}</p>
+                    <p>Aplikacja do sprawdzania statystyk graczy League of Legends i znajdowania drużyn Clash.</p>
+                    <p class="version">Wersja {{ app_version }}</p>
                 </div>
 
                 <div class="footer-section">
                     <h4>Linki</h4>
                     <ul class="footer-links">
                         <li><a href="{{ url_for('main.index') }}">Strona Główna</a></li>
-                        <li><a href="https://developer.riotgames.com/" target="_blank">Riot API</a></li>
-                        <li><a href="https://github.com/yourusername/clash-finder" target="_blank">GitHub</a></li>
+                        <li><a href="https://developer.riotgames.com/" target="_blank">Riot Games API</a></li>
+                        <li><a href="https://www.leagueoflegends.com/" target="_blank">League of Legends</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
-                    <h4>Regiony</h4>
+                    <h4>Informacje</h4>
                     <ul class="footer-links">
-                        <li>EUW - Europe West</li>
-                        <li>EUNE - Europe Nordic & East</li>
-                        <li>NA - North America</li>
-                        <li>KR - Korea</li>
+                        <li><a href="#">Polityka Prywatności</a></li>
+                        <li><a href="#">Warunki Użytkowania</a></li>
+                        <li><a href="#">Kontakt</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
                 <p class="disclaimer">
-                    Clash Finder nie jest oficjalnie powiązany z Riot Games.
-                    League of Legends i Riot Games są znakami towarowymi lub zastrzeżonymi
-                    znakami towarowymi Riot Games, Inc.
+                    Clash Finder nie jest powiązany z Riot Games. League of Legends i Riot Games są znakami towarowymi Riot Games, Inc.
                 </p>
                 <p class="copyright">
-                    &copy; {{ now.year if now else '2024' }} Clash Finder. Wszystkie prawa zastrzeżone.
+                    &copy; 2025 Clash Finder. Wszystkie prawa zastrzeżone.
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    {% block extra_js %}{% endblock %}
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+    </button>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                    <div class="flash-message flash-{{ category }}">
-                        <span class="flash-text">{{ message }}</span>
-                        <button class="flash-close" onclick="this.parentElement.remove()">×</button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -1,30 +1,30 @@
 /* app/static/css/match_card.css */
 /**
  * Match Card Styles
- * Styles for player match history cards
+ * Styles for player match history cards with theme support
  */
 
 /* Match Card Base */
 .match-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 8px;
     margin-bottom: 1.5rem;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .match-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px var(--card-shadow);
 }
 
 .match-win {
-    border-left: 4px solid #28a745;
+    border-left: 4px solid var(--success);
 }
 
 .match-loss {
-    border-left: 4px solid #dc3545;
+    border-left: 4px solid var(--danger);
 }
 
 /* Result Banner */
@@ -33,15 +33,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--match-card-border);
 }
 
 .match-win .match-result-banner {
-    background: linear-gradient(90deg, #d4edda 0%, #f8f9fa 100%);
+    background: var(--match-win-bg);
 }
 
 .match-loss .match-result-banner {
-    background: linear-gradient(90deg, #f8d7da 0%, #f8f9fa 100%);
+    background: var(--match-loss-bg);
 }
 
 .match-result-info {
@@ -57,16 +57,16 @@
 }
 
 .match-win .result-text {
-    color: #155724;
+    color: var(--success);
 }
 
 .match-loss .result-text {
-    color: #721c24;
+    color: var(--danger);
 }
 
 .queue-type {
     font-weight: 600;
-    color: #495057;
+    color: var(--text-secondary);
     font-size: 0.875rem;
 }
 
@@ -74,17 +74,52 @@
     display: flex;
     gap: 1rem;
     font-size: 0.875rem;
-    color: #6c757d;
+    color: var(--text-tertiary);
 }
 
-/* Your Player Section */
+/* Your Player Section - CLICKABLE */
 .your-player-section {
+    position: relative;
     padding: 1.5rem;
-    background: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
+    background: var(--player-section-bg);
+    border-bottom: 2px solid var(--border-secondary);
     display: flex;
     gap: 2rem;
     align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+}
+
+.your-player-section:hover {
+    background: var(--player-section-hover);
+}
+
+.your-player-section:active {
+    background: var(--player-section-active);
+}
+
+/* Expanded state */
+.your-player-section.expanded {
+    background: var(--player-section-active);
+}
+
+/* Expand Indicator */
+.expand-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    transition: transform 0.3s, color 0.3s;
+    pointer-events: none;
+    margin-left: auto;
+}
+
+.your-player-section:hover .expand-indicator {
+    color: var(--text-primary);
 }
 
 .champion-info {
@@ -103,8 +138,8 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 3px solid #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--border-primary);
+    box-shadow: 0 2px 8px var(--card-shadow);
 }
 
 .champion-level {
@@ -117,14 +152,14 @@
     font-weight: 700;
     padding: 0.25rem 0.5rem;
     border-radius: 12px;
-    border: 2px solid white;
+    border: 2px solid var(--card-bg);
 }
 
 .champion-name {
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0 0 0.5rem 0;
-    color: #212529;
+    color: var(--text-primary);
 }
 
 .summoner-spells {
@@ -158,23 +193,29 @@
 .kda-numbers {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #212529;
+    color: var(--text-primary);
 }
 
 .kda-ratio {
     font-size: 0.875rem;
-    color: #6c757d;
+    color: var(--text-secondary);
+}
+
+.cs-stat,
+.gold-stat {
+    display: flex;
+    flex-direction: column;
 }
 
 .stat-value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #212529;
+    color: var(--text-primary);
 }
 
 .stat-label {
     font-size: 0.75rem;
-    color: #6c757d;
+    color: var(--text-secondary);
     text-transform: uppercase;
 }
 
@@ -192,20 +233,22 @@
     width: 100%;
     height: 100%;
     border-radius: 4px;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-secondary);
 }
 
 .item-empty {
     width: 100%;
     height: 100%;
-    background: #e9ecef;
+    background: var(--stat-highlight);
     border-radius: 4px;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-secondary);
 }
 
 /* All Players Section */
 .all-players-section {
     padding: 1rem;
+    transition: all 0.3s ease-out;
+    overflow: hidden;
 }
 
 .teams-container {
@@ -220,19 +263,19 @@
 }
 
 .team-blue {
-    border: 2px solid #0d6efd;
+    border: 2px solid var(--team-blue);
 }
 
 .team-red {
-    border: 2px solid #dc3545;
+    border: 2px solid var(--team-red);
 }
 
 .team-victory {
-    background: #d4edda;
+    background: var(--match-win-bg);
 }
 
 .team-defeat {
-    background: #f8d7da;
+    background: var(--match-loss-bg);
 }
 
 .team-header {
@@ -244,17 +287,17 @@
 }
 
 .team-blue .team-header {
-    background: #0d6efd;
+    background: var(--team-blue);
     color: white;
 }
 
 .team-red .team-header {
-    background: #dc3545;
+    background: var(--team-red);
     color: white;
 }
 
 .team-players {
-    background: white;
+    background: var(--card-bg);
 }
 
 .player-row {
@@ -262,13 +305,13 @@
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
     gap: 0.5rem;
     padding: 0.75rem;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--border-primary);
     align-items: center;
     transition: background 0.2s;
 }
 
 .player-row:hover {
-    background: #f8f9fa;
+    background: var(--stat-highlight);
 }
 
 .player-row:last-child {
@@ -282,6 +325,14 @@
 
 .searched-player:hover {
     background: #ffe69c;
+}
+
+[data-theme="dark"] .searched-player {
+    background: #4a4000;
+}
+
+[data-theme="dark"] .searched-player:hover {
+    background: #5a5010;
 }
 
 .player-champion {
@@ -298,7 +349,7 @@
 
 .player-name {
     font-size: 0.875rem;
-    color: #212529;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -307,13 +358,13 @@
 .player-kda {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #495057;
+    color: var(--text-secondary);
     text-align: center;
 }
 
 .player-cs {
     font-size: 0.875rem;
-    color: #6c757d;
+    color: var(--text-tertiary);
     text-align: center;
 }
 
@@ -349,7 +400,7 @@
 
 .player-tag {
     font-size: 0.75rem;
-    color: #6c757d;
+    color: var(--text-tertiary);
     font-weight: 500;
 }
 
@@ -375,6 +426,12 @@
     .player-stats-summary {
         width: 100%;
         justify-content: space-around;
+    }
+
+    .expand-indicator {
+        right: 1rem;
+        top: 1rem;
+        transform: none;
     }
 }
 

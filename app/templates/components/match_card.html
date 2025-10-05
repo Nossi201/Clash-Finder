@@ -16,8 +16,8 @@
         </div>
     </div>
 
-    <!-- Your Player Stats (Highlighted) -->
-    <div class="your-player-section">
+    <!-- Your Player Stats (Highlighted) - CLICKABLE -->
+    <div class="your-player-section" onclick="toggleMatchDetails(this)">
         <div class="champion-info">
             <div class="champion-icon-large">
                 <img src="{{ get_champion_icon_url(match.get('championName', 'Unknown'), ddragon_version) }}"
@@ -80,10 +80,13 @@
                 </div>
             {% endfor %}
         </div>
+
+        <!-- Expand Indicator (moved to end) -->
+        <div class="expand-indicator">▼</div>
     </div>
 
-    <!-- All Players Section -->
-    <div class="all-players-section">
+    <!-- All Players Section (Hidden by default) -->
+    <div class="all-players-section" style="display: none;">
         <div class="teams-container">
             <!-- Team 100 (Blue) -->
             <div class="team-column team-blue {{ 'team-victory' if match.get('team_100_win') else 'team-defeat' }}">
@@ -99,7 +102,7 @@
                                      class="champion-icon-small"
                                      onerror="this.src='https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/Aatrox.png'">
                                 {% if player.get('summonerName') and player.get('summonerTag') %}
-                                    <a href="/player_stats/{{ player.get('summonerName') }}--{{ player.get('summonerTag') }}/{{ match.get('SERVER', 'euw').lower() }}"
+                                    <a href="/player_stats/{{ player.get('summonerName') }}--{{ player.get('summonerTag') }}/{{ match.get('server_slug', 'eu-west') }}"
                                        class="player-name-link"
                                        title="Zobacz historię {{ player.get('summonerName') }}#{{ player.get('summonerTag') }}">
                                         <span class="player-name">{{ player.get('summonerName', 'Unknown') }}</span>
@@ -143,7 +146,7 @@
                                      class="champion-icon-small"
                                      onerror="this.src='https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/Aatrox.png'">
                                 {% if player.get('summonerName') and player.get('summonerTag') %}
-                                    <a href="/player_stats/{{ player.get('summonerName') }}--{{ player.get('summonerTag') }}/{{ match.get('SERVER', 'euw').lower() }}"
+                                    <a href="/player_stats/{{ player.get('summonerName') }}--{{ player.get('summonerTag') }}/{{ match.get('server_slug', 'eu-west') }}"
                                        class="player-name-link"
                                        title="Zobacz historię {{ player.get('summonerName') }}#{{ player.get('summonerTag') }}">
                                         <span class="player-name">{{ player.get('summonerName', 'Unknown') }}</span>
@@ -175,3 +178,23 @@
         </div>
     </div>
 </div>
+
+<script>
+function toggleMatchDetails(element) {
+    // Find the match card container
+    const matchCard = element.closest('.match-card');
+    const detailsSection = matchCard.querySelector('.all-players-section');
+    const indicator = element.querySelector('.expand-indicator');
+
+    // Toggle visibility with animation
+    if (detailsSection.style.display === 'none' || !detailsSection.style.display) {
+        detailsSection.style.display = 'block';
+        indicator.style.transform = 'rotate(180deg)';
+        element.classList.add('expanded');
+    } else {
+        detailsSection.style.display = 'none';
+        indicator.style.transform = 'rotate(0deg)';
+        element.classList.remove('expanded');
+    }
+}
+</script>
