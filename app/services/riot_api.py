@@ -558,6 +558,41 @@ def process_match_for_player(
         return None
 
 
+def process_raw_matches_for_player(
+        raw_matches: List[List[Dict[str, Any]]],
+        puuid: str,
+        game_name: str,
+        tag_line: str,
+        server: str
+) -> List[Dict[str, Any]]:
+    """
+    Helper function: Przetwarza surowe dane meczów z display_matches_by_value().
+    Konwertuje format [[raw_match_1], [raw_match_2]] na [processed_match_1, processed_match_2].
+
+    Args:
+        raw_matches: Lista zawierająca listy z surowymi danymi meczów
+        puuid: PUUID gracza
+        game_name: Nazwa gracza
+        tag_line: Tag gracza
+        server: Serwer
+
+    Returns:
+        Lista przetworzonych meczów gotowych do renderowania
+    """
+    processed_matches = []
+
+    for match_wrapper in raw_matches:
+        # Rozpakuj [match_data] -> match_data
+        match_data = match_wrapper[0] if match_wrapper and len(match_wrapper) > 0 else None
+
+        if match_data:
+            # Użyj istniejącej funkcji do przetwarzania
+            processed = process_match_for_player(match_data, puuid, game_name, tag_line, server)
+            if processed:
+                processed_matches.append(processed)
+
+    return processed_matches
+
 def display_matches_by_value(
         game_name: str,
         tag_line: str,

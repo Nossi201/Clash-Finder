@@ -1,4 +1,4 @@
-// app/static/js/player-history-init.js
+// app/static/js/player-history.js
 // Initialization script for player history page
 
 (function() {
@@ -83,51 +83,107 @@
             });
         },
 
-        /**
-         * Initialize load more handler
-         */
-        initLoadMoreHandler: function(playerData) {
-            if (!window.LoadMoreHandler) {
-                console.error('LoadMoreHandler module not loaded');
-                return;
+/**
+ * Initialize load more handler
+ */
+initLoadMoreHandler: function(playerData) {
+    if (!window.LoadMoreHandler) {
+        console.error('LoadMoreHandler module not loaded');
+        return;
+    }
+
+    const name = encodeURIComponent(playerData.summonerName);
+    const tag = encodeURIComponent(playerData.summonerTag);
+    const server = encodeURIComponent(playerData.server);
+
+    // Zamiast endpoint z page, użyj custom logiki
+    const button = document.querySelector('#load-more-btn');
+    if (!button) {
+        console.error('Load more button not found');
+        return;
+    }
+
+    button.addEventListener('click', function() {
+        // Pobierz aktualną liczbę załadowanych meczów
+        const playerDataEl = document.getElementById('player-data');
+        const currentCount = parseInt(playerDataEl.dataset.currentCount || '0');
+        const container = document.querySelector('#match-list');
+
+        console.log(`Load more clicked | currentCount=${currentCount}`);
+
+        // Znajdź elementy wewnątrz przycisku
+        const btnText = button.querySelector('.btn-text');
+        const btnLoader = button.querySelector('.btn-loader');
+
+        if (!btnText || !btnLoader) {
+            console.warn('Button structure invalid');
+            return;
+        }
+
+        // Disable button and show loading
+        button.disabled = true;
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline-flex';
+
+        // Zbuduj URL z start i count
+        const url = `/player_stats/load_more_simple?name=${name}&tag=${tag}&server=${server}&start=${currentCount}&count=5`;
+
+        console.log(`Fetching: ${url}`);
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
             }
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            const items = data.items || [];
 
-            const name = encodeURIComponent(playerData.summonerName);
-            const tag = encodeURIComponent(playerData.summonerTag);
-            const server = encodeURIComponent(playerData.server);
+            console.log(`Received ${items.length} new matches`);
 
-            LoadMoreHandler.init({
-                buttonSelector: '#load-more-btn',
-                containerSelector: '#match-list',
-                endpoint: `/player_stats/load_more_simple?name=${name}&tag=${tag}&server=${server}&page_size=5`,
-                onLoad: function(data, container) {
-                    const items = data.items || [];
-
-                    items.forEach(html => {
-                        const div = document.createElement('div');
-                        div.innerHTML = html.trim();
-                        const card = div.firstElementChild;
-                        if (card) {
-                            container.appendChild(card);
-                        }
-                    });
-
-                    // Update stats after loading more
-                    const stats = ProgressiveLoader.calculateStats(container);
-                    ProgressiveLoader.updateStatsDisplay(stats.total, stats.wins, stats.losses);
-
-                    // Update player data counter
-                    const playerDataEl = document.getElementById('player-data');
-                    if (playerDataEl) {
-                        playerDataEl.dataset.currentCount = stats.total;
-                    }
-                },
-                onError: function(err) {
-                    console.error('Load more failed:', err);
-                    alert('Błąd podczas ładowania meczów. Spróbuj ponownie.');
+            items.forEach(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html.trim();
+                const card = div.firstElementChild;
+                if (card) {
+                    container.appendChild(card);
                 }
             });
-        },
+
+            // Update stats after loading more
+            const stats = ProgressiveLoader.calculateStats(container);
+            ProgressiveLoader.updateStatsDisplay(stats.total, stats.wins, stats.losses);
+
+            // Update player data counter
+            if (playerDataEl) {
+                playerDataEl.dataset.currentCount = stats.total;
+            }
+
+            // Hide button if no more data
+            if (data.hasMore === false || items.length === 0) {
+                button.parentElement.style.display = 'none';
+            }
+        })
+        .catch(function(error) {
+            console.error('Load more failed:', error);
+            alert('Błąd podczas ładowania meczów. Spróbuj ponownie.');
+        })
+        .finally(function() {
+            // Re-enable button
+            button.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
+        });
+    });
+
+    console.log('Load more handler initialized');
+},
 
         /**
          * Setup match details toggle functionality

@@ -636,3 +636,16 @@ werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player
 [2025-11-09 14:02:12] ERROR [routes.player:259] Error loading batch: 'list object' has no attribute 'get'
 [2025-11-09 14:06:09] ERROR [routes.player:336] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
 [2025-11-09 14:19:22] ERROR [routes.player:315] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 19:57:40] ERROR [routes.player:315] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 19:59:38] ERROR [routes.player:327] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 20:10:31] ERROR [routes.player:327] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 20:11:33] ERROR [services.resource_manager:55] Error loading items.json: Expecting property name enclosed in double quotes: line 3832 column 9 (char 95023)
+[2025-11-09 20:11:40] ERROR [routes.player:327] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 20:27:47] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202 | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:27:47] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:29:23] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202 | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:29:23] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:29:41] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202 | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:29:41] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:29:47] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202 | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202
+[2025-11-09 20:29:47] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/HextechChest/202

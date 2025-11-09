@@ -150,20 +150,11 @@ def load_initial_matches():
 )
 def load_more_matches():
     """
-    Load additional match entries (UNCHANGED FROM ORIGINAL).
-
-    Expects JSON:
-        {
-            "current_count": int,
-            "number": int,
-            "server": str,
-            "SUMMONER_NAME": str,
-            "SUMMONER_TAG": str
-        }
+    Load additional match entries.
     """
-    start_time = time.time()
+    from app.services.riot_api import process_raw_matches_for_player
 
-    # Parse request data
+    start_time = time.time()
     data = request.get_json() or {}
     current = data.get('current_count', 0)
     number = int(data.get('number', 1))
@@ -171,39 +162,45 @@ def load_more_matches():
     game_name = data.get('SUMMONER_NAME', '')
     tag_line = data.get('SUMMONER_TAG', '')
 
-    logger.debug(
-        f"Load more matches | Player: {game_name}#{tag_line} | "
-        f"Current: {current} | Requesting: {number}"
-    )
+    logger.debug(f"Load more matches | Player: {game_name}#{tag_line} | Current: {current} | Requesting: {number}")
 
-    # Validate inputs
     if not all([server, game_name]):
         logger.warning("Load more: Missing required parameters")
         return jsonify({'error': 'Missing required parameters'}), 400
 
     try:
-        # Fetch additional matches
-        new_matches = display_matches_by_value(
-            game_name, tag_line, server, current, number
-        )
+        # Pobierz PUUID
+        account_info = get_account_info(game_name, tag_line, server)
+        if not account_info:
+            return jsonify([]), 200
 
-        if new_matches is None or not new_matches:
+        puuid = account_info['puuid']
+
+        # Fetch surowe dane
+        raw_matches = display_matches_by_value(game_name, tag_line, server, current, number)
+
+        if not raw_matches:
             logger.warning(f"No additional matches found | Player: {game_name}#{tag_line}")
-            return jsonify({'error': 'No more matches found'}), 404
+            return jsonify([]), 200
 
-        # Add server info to first match for JavaScript processing
-        if new_matches and len(new_matches) > 0:
-            if len(new_matches[0]) > 0:
-                new_matches[0][0]['SERVER'] = server
-                new_matches[0][0]['summoner_name'] = game_name
-                new_matches[0][0]['summoner_tag'] = tag_line
-
-        logger.info(
-            f"Loaded {len(new_matches)} additional matches | "
-            f"Time: {time.time() - start_time:.2f}s"
+        # Przetwórz używając helper function
+        processed_matches = process_raw_matches_for_player(
+            raw_matches,
+            puuid,
+            game_name,
+            tag_line,
+            server
         )
 
-        return jsonify(new_matches)
+        # Renderuj HTML
+        match_cards_html = []
+        for match in processed_matches:
+            match_html = render_template('components/match_card.html', match=match, ddragon_version='14.1.1')
+            match_cards_html.append(match_html)
+
+        logger.info(f"Loaded {len(match_cards_html)} additional matches | Time: {time.time() - start_time:.2f}s")
+
+        return jsonify(match_cards_html)
 
     except Exception as e:
         log_error_with_context(logger, e, f"Load more for {game_name}#{tag_line}")
@@ -283,34 +280,63 @@ def load_more_matches_alt():
     """Alternative endpoint for load more (backwards compatibility)."""
     return load_more_matches()
 
+
 @player_bp.route('/load_more_simple', methods=['GET'])
 def load_more_simple():
     try:
-        page = int(request.args.get('page', 1))
-        page_size = int(request.args.get('page_size', 5))
+        from app.services.riot_api import process_raw_matches_for_player
+
+        # Użyj 'start' jako offset w liście meczów
+        start = int(request.args.get('start', 0))
+        count = int(request.args.get('count', 5))
         game_name = request.args.get('name', '')
         tag_line = request.args.get('tag', '')
         server = request.args.get('server', '')
 
+        logger.debug(f"load_more_simple | start={start} | count={count} | player={game_name}#{tag_line}")
+
         if not server or not game_name:
             return jsonify({'items': [], 'hasMore': False}), 400
 
-        current = max(0, (page - 1) * page_size)
-        # pobierz porcję meczów
-        new_matches = display_matches_by_value(game_name, tag_line, server, current, page_size)
+        # Pobierz account info żeby mieć PUUID
+        account_info = get_account_info(game_name, tag_line, server)
+        if not account_info:
+            return jsonify({'items': [], 'hasMore': False}), 400
 
-        if not new_matches:
+        puuid = account_info['puuid']
+
+        # Pobierz surowe dane meczów używając display_matches_by_value
+        raw_matches = display_matches_by_value(game_name, tag_line, server, start, count)
+
+        if not raw_matches:
+            logger.info(f"No more matches available from offset {start}")
             return jsonify({'items': [], 'hasMore': False})
 
-        # renderuj karty jako HTML (tak jak w /load_initial)
+        # Przetwórz surowe dane używając helper function
+        processed_matches = process_raw_matches_for_player(
+            raw_matches,
+            puuid,
+            game_name,
+            tag_line,
+            server
+        )
+
+        if not processed_matches:
+            logger.info(f"No matches after processing")
+            return jsonify({'items': [], 'hasMore': False})
+
+        # Renderuj karty jako HTML
         items = []
-        for match in new_matches:
+        for match in processed_matches:
             html = render_template('components/match_card.html', match=match, ddragon_version='14.1.1')
             items.append(html)
 
-        # jeśli przyszło mniej niż page_size -> nie ma więcej
-        has_more = len(new_matches) == page_size
+        # Jeśli otrzymaliśmy mniej niż count, to nie ma więcej
+        has_more = len(raw_matches) == count
+
+        logger.info(f"load_more_simple complete | loaded={len(items)} | hasMore={has_more}")
+
         return jsonify({'items': items, 'hasMore': has_more})
     except Exception as e:
-        logger.error(f"load_more_simple error: {e}")
+        logger.error(f"load_more_simple error: {e}", exc_info=True)
         return jsonify({'items': [], 'hasMore': False}), 500

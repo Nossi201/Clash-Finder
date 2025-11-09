@@ -38,67 +38,81 @@
         },
 
         /**
-         * Load more content
-         */
-        loadMore: function(config) {
-            const button = document.querySelector(config.buttonSelector);
-            const container = document.querySelector(config.containerSelector);
+ * Load more content
+ */
+loadMore: function(config) {
+    const button = document.querySelector(config.buttonSelector);
+    const container = document.querySelector(config.containerSelector);
 
-            if (!button || !container) return;
+    if (!button || !container) return;
 
-            // Disable button and show loading state
-            button.disabled = true;
-            button.classList.add('loading');
+    // Znajdź elementy wewnątrz przycisku
+    const btnText = button.querySelector('.btn-text');
+    const btnLoader = button.querySelector('.btn-loader');
 
-            const originalText = button.textContent;
-            button.textContent = 'Ładowanie...';
+    if (!btnText || !btnLoader) {
+        console.warn('Button structure invalid - missing .btn-text or .btn-loader');
+        return;
+    }
 
-            // Make request
-            const url = config.endpoint + '?page=' + config.currentPage;
+    // Disable button and show loading state
+    button.disabled = true;
+    button.classList.add('loading');
 
-            fetch(url, {
-                method: config.method || 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(function(data) {
-                // Success callback
-                if (config.onLoad) {
-                    config.onLoad(data, container);
-                }
+    // Ukryj tekst, pokaż loader
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'inline-flex';
 
-                // Increment page
-                config.currentPage++;
+    // Make request
+    const separator = config.endpoint.includes('?') ? '&' : '?';
+    const url = config.endpoint + separator + 'page=' + config.currentPage;
 
-                // Hide button if no more data
-                if (data.hasMore === false || data.length === 0) {
-                    button.style.display = 'none';
-                }
-            })
-            .catch(function(error) {
-                console.error('Load more error:', error);
+    fetch(url, {
+        method: config.method || 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(function(data) {
+        // Success callback
+        if (config.onLoad) {
+            config.onLoad(data, container);
+        }
 
-                // Error callback
-                if (config.onError) {
-                    config.onError(error);
-                } else {
-                    alert('Błąd podczas ładowania danych');
-                }
-            })
-            .finally(function() {
-                // Re-enable button
-                button.disabled = false;
-                button.classList.remove('loading');
-                button.textContent = originalText;
-            });
-        },
+        // Increment page
+        config.currentPage++;
+
+        // Hide button if no more data
+        if (data.hasMore === false || data.length === 0) {
+            button.style.display = 'none';
+        }
+    })
+    .catch(function(error) {
+        console.error('Load more error:', error);
+
+        // Error callback
+        if (config.onError) {
+            config.onError(error);
+        } else {
+            alert('Błąd podczas ładowania danych');
+        }
+    })
+    .finally(function() {
+        // Re-enable button i przywróć stan
+        button.disabled = false;
+        button.classList.remove('loading');
+
+        // Pokaż tekst, ukryj loader
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
+    });
+},
 
         /**
          * Infinite scroll implementation
