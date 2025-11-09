@@ -179,22 +179,3 @@
     </div>
 </div>
 
-<script>
-function toggleMatchDetails(element) {
-    // Find the match card container
-    const matchCard = element.closest('.match-card');
-    const detailsSection = matchCard.querySelector('.all-players-section');
-    const indicator = element.querySelector('.expand-indicator');
-
-    // Toggle visibility with animation
-    if (detailsSection.style.display === 'none' || !detailsSection.style.display) {
-        detailsSection.style.display = 'block';
-        indicator.style.transform = 'rotate(180deg)';
-        element.classList.add('expanded');
-    } else {
-        detailsSection.style.display = 'none';
-        indicator.style.transform = 'rotate(0deg)';
-        element.classList.remove('expanded');
-    }
-}
-</script>

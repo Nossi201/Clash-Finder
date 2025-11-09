@@ -1,7 +1,7 @@
 # app/routes/player.py
 """
-Player routes for Clash Finder.
-Handles player stats, match history, and load more functionality.
+Player routes for Clash Finder - MINIMAL ASYNC MODIFICATION.
+Keeps original structure but loads first matches asynchronously.
 """
 
 import time
@@ -12,7 +12,8 @@ from app.utils.formatters import unslugify_server, decode_riot_id
 from app.services.riot_api import (
     display_matches,
     display_matches_by_value,
-    servers_to_region
+    servers_to_region,
+    get_account_info  # Just to verify player exists
 )
 
 logger = get_logger('routes.player')
@@ -23,20 +24,16 @@ player_bp = Blueprint('player', __name__, url_prefix='/player_stats')
 
 @player_bp.route('/<riot_id>/<server>')
 @conditional_rate_limit(
-    per_minute=15,  # Config.RATE_LIMIT_PLAYER_STATS_MINUTE
-    per_hour=150  # Config.RATE_LIMIT_PLAYER_STATS_HOUR
+    per_minute=15,
+    per_hour=150
 )
 @log_request_time
 def player_stats(riot_id, server):
     """
-    Display player match history and detailed stats.
+    Display player page IMMEDIATELY, but with empty match list.
+    JavaScript will load matches right after page loads.
 
-    Args:
-        riot_id: Encoded Riot ID (Name--TAG format)
-        server: Server slug (e.g., 'eu-west')
-
-    Returns:
-        Rendered player history template or error page
+    This is MINIMAL change - we just don't load matches here.
     """
     start_time = time.time()
 
@@ -44,32 +41,36 @@ def player_stats(riot_id, server):
     game_name, tag_line = decode_riot_id(riot_id)
     actual_server = unslugify_server(server)
 
-    logger.info(f"Loading player stats | Player: {game_name}#{tag_line} | Server: {actual_server}")
+    logger.info(f"Loading player stats page | Player: {game_name}#{tag_line} | Server: {actual_server}")
 
     try:
-        # Fetch match history
-        matches = display_matches(game_name, tag_line, actual_server)
-
-        if not matches:
-            log_player_search(logger, f"{game_name}#{tag_line}", actual_server, found=False)
-            logger.warning(f"No matches found for {game_name}#{tag_line} on {actual_server}")
-
+        # Optional: Quick check if player exists (can be removed for even faster load)
+        account_info = get_account_info(game_name, tag_line, actual_server)
+        if not account_info:
             return render_template(
                 'index.html',
-                error_message="Player not found or has no recent matches.",
+                error_message="Player not found.",
                 servers=servers_to_region.keys()
             )
 
-        # Success
-        log_player_search(logger, f"{game_name}#{tag_line}", actual_server, found=True)
-        logger.info(
-            f"Successfully loaded {len(matches)} matches | "
-            f"Time: {time.time() - start_time:.2f}s"
-        )
+        # CHANGE: Instead of loading matches, pass empty list
+        # JavaScript will load them immediately after page renders
+        logger.info(f"Page rendered (async mode) | Time: {time.time() - start_time:.2f}s")
+
+        # Create a dummy first match just for player info
+        dummy_match = {
+            'summoner_name': game_name,
+            'summoner_tag': tag_line,
+            'SERVER': actual_server,
+            'profileIconId': 0,  # Default icon
+            'win': False  # Dummy value
+        }
 
         return render_template(
             'player_history.html',
-            match_history_list_sorted=matches
+            match_history_list_sorted=[],  # Empty list - JS will fill it
+            player_info=dummy_match,  # Pass player info separately
+            async_mode=True  # Flag to enable async loading in template
         )
 
     except Exception as e:
@@ -85,14 +86,71 @@ def player_stats(riot_id, server):
         ), 500
 
 
+@player_bp.route('/load_initial', methods=['POST'])
+@conditional_rate_limit(
+    per_minute=30,
+    per_hour=300
+)
+def load_initial_matches():
+    """
+    NEW ENDPOINT: Load initial matches via AJAX.
+    Called immediately after page loads.
+    """
+    start_time = time.time()
+
+    # Parse request data
+    data = request.get_json() or {}
+    server = data.get('server', '')
+    game_name = data.get('SUMMONER_NAME', '')
+    tag_line = data.get('SUMMONER_TAG', '')
+
+    logger.info(f"Loading initial matches | Player: {game_name}#{tag_line}")
+
+    if not all([server, game_name]):
+        return jsonify({'error': 'Missing required parameters'}), 400
+
+    try:
+        # Load initial batch of matches
+        matches = display_matches(game_name, tag_line, server)
+
+        if not matches:
+            logger.warning(f"No matches found for {game_name}#{tag_line}")
+            return jsonify({'matches': [], 'total': 0})
+
+        # Limit to first 10 for initial load
+        initial_matches = matches[:10] if len(matches) > 10 else matches
+
+        # Render match cards as HTML
+        match_cards_html = []
+        for match in initial_matches:
+            match_html = render_template(
+                'components/match_card.html',
+                match=match,
+                ddragon_version='14.1.1'
+            )
+            match_cards_html.append(match_html)
+
+        logger.info(f"Initial load complete | Matches: {len(initial_matches)} | Time: {time.time() - start_time:.2f}s")
+
+        return jsonify({
+            'matches': match_cards_html,
+            'total': len(initial_matches),
+            'has_more': len(matches) > 10
+        })
+
+    except Exception as e:
+        logger.error(f"Error loading initial matches: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
 @player_bp.route('/load_more', methods=['POST'])
 @conditional_rate_limit(
-    per_minute=20,  # Config.RATE_LIMIT_LOAD_MORE_MINUTE
-    per_hour=200  # Config.RATE_LIMIT_LOAD_MORE_HOUR
+    per_minute=20,
+    per_hour=200
 )
 def load_more_matches():
     """
-    Load additional match entries asynchronously.
+    Load additional match entries (UNCHANGED FROM ORIGINAL).
 
     Expects JSON:
         {
@@ -102,9 +160,6 @@ def load_more_matches():
             "SUMMONER_NAME": str,
             "SUMMONER_TAG": str
         }
-
-    Returns:
-        JSON with additional matches or error
     """
     start_time = time.time()
 
@@ -155,8 +210,107 @@ def load_more_matches():
         return jsonify({'error': str(e)}), 500
 
 
+@player_bp.route('/load_batch', methods=['POST'])
+@conditional_rate_limit(
+    per_minute=50,
+    per_hour=500
+)
+def load_batch():
+    """
+    Load a small batch of matches (progressive loading).
+    Uses the SAME logic as load_initial for consistency.
+    """
+    start_time = time.time()
+
+    data = request.get_json() or {}
+    server = data.get('server', '')
+    game_name = data.get('SUMMONER_NAME', '')
+    tag_line = data.get('SUMMONER_TAG', '')
+    offset = int(data.get('offset', 0))
+    batch_size = int(data.get('batch_size', 2))
+
+    logger.debug(f"Loading batch | Player: {game_name}#{tag_line} | Offset: {offset} | Size: {batch_size}")
+
+    if not all([server, game_name]):
+        return jsonify({'error': 'Missing parameters'}), 400
+
+    try:
+        # Używamy tej samej funkcji co load_initial - display_matches()
+        # Cache sprawi że będzie szybko
+        all_matches = display_matches(game_name, tag_line, server)
+
+        if not all_matches:
+            logger.warning(f"No matches found for player")
+            return jsonify({'matches': [], 'has_more': False, 'offset': offset})
+
+        # Wytnij tylko potrzebny fragment (slice)
+        end_offset = offset + batch_size
+        batch_matches = all_matches[offset:end_offset]
+
+        if not batch_matches:
+            logger.warning(f"No matches in range {offset}:{end_offset}")
+            return jsonify({'matches': [], 'has_more': False, 'offset': offset})
+
+        # Render match cards - IDENTYCZNIE JAK W load_initial
+        match_cards_html = []
+        for match in batch_matches:
+            match_html = render_template(
+                'components/match_card.html',
+                match=match,
+                ddragon_version='14.1.1'
+            )
+            match_cards_html.append(match_html)
+
+        logger.info(
+            f"Batch loaded | Matches: {len(match_cards_html)}/{len(all_matches)} | "
+            f"Offset: {offset} | Time: {time.time() - start_time:.2f}s"
+        )
+
+        return jsonify({
+            'matches': match_cards_html,
+            'total_loaded': len(match_cards_html),
+            'offset': offset + len(match_cards_html),
+            'has_more': (offset + len(match_cards_html)) < len(all_matches)
+        })
+
+    except Exception as e:
+        logger.error(f"Error loading batch: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
 # Alternative route for backwards compatibility
 @player_bp.route('/', methods=['POST'])
 def load_more_matches_alt():
     """Alternative endpoint for load more (backwards compatibility)."""
     return load_more_matches()
+
+@player_bp.route('/load_more_simple', methods=['GET'])
+def load_more_simple():
+    try:
+        page = int(request.args.get('page', 1))
+        page_size = int(request.args.get('page_size', 5))
+        game_name = request.args.get('name', '')
+        tag_line = request.args.get('tag', '')
+        server = request.args.get('server', '')
+
+        if not server or not game_name:
+            return jsonify({'items': [], 'hasMore': False}), 400
+
+        current = max(0, (page - 1) * page_size)
+        # pobierz porcję meczów
+        new_matches = display_matches_by_value(game_name, tag_line, server, current, page_size)
+
+        if not new_matches:
+            return jsonify({'items': [], 'hasMore': False})
+
+        # renderuj karty jako HTML (tak jak w /load_initial)
+        items = []
+        for match in new_matches:
+            html = render_template('components/match_card.html', match=match, ddragon_version='14.1.1')
+            items.append(html)
+
+        # jeśli przyszło mniej niż page_size -> nie ma więcej
+        has_more = len(new_matches) == page_size
+        return jsonify({'items': items, 'hasMore': has_more})
+    except Exception as e:
+        logger.error(f"load_more_simple error: {e}")
+        return jsonify({'items': [], 'hasMore': False}), 500

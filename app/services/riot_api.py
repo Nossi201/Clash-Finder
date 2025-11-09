@@ -370,12 +370,21 @@ def display_matches(
         game_name: str,
         tag_line: str,
         server: str,
-        count: int = 10
+        limit: int = 10  # Add limit parameter
 ) -> Optional[List[Dict[str, Any]]]:
     """
-    Get and format match history for a player.
+    Get and format match history for a player with optional limit.
+
+    Args:
+        game_name: Player's game name
+        tag_line: Player's tag line
+        server: Server region
+        limit: Maximum number of matches to return
+
+    Returns:
+        List of processed match data or None
     """
-    logger.info(f"Fetching matches | Player: {game_name}#{tag_line} | Count: {count}")
+    logger.info(f"Fetching matches | Player: {game_name}#{tag_line} | Limit: {limit}")
 
     # Get account info
     account_info = get_account_info(game_name, tag_line, server)
@@ -385,18 +394,18 @@ def display_matches(
 
     puuid = account_info['puuid']
 
-    # Get match IDs
-    match_ids = get_match_ids(puuid, server, start=0, count=count)
+    # Get match IDs with limit
+    match_ids = get_match_ids(puuid, server, start=0, count=limit)
     if not match_ids:
         logger.warning(f"No matches found for PUUID: {puuid[:8]}...")
         return None
 
-    # Fetch and PROCESS match details
+    # Fetch and process match details
     matches = []
     for match_id in match_ids:
         match_data = get_match_details(match_id, server)
         if match_data:
-            # PROCESS THE RAW MATCH DATA
+            # Process the raw match data
             processed_match = process_match_for_player(match_data, puuid, game_name, tag_line, server)
             if processed_match:
                 matches.append(processed_match)
@@ -613,3 +622,89 @@ def invalidate_player_cache(game_name: str, tag_line: str, server: str):
         cache.delete(key)
 
     logger.info(f"Invalidated cache for {game_name}#{tag_line}")
+
+
+def get_player_info(game_name: str, tag_line: str, server: str) -> Optional[Dict[str, Any]]:
+    """
+    Get basic player information (quick call).
+
+    Args:
+        game_name: Player's game name
+        tag_line: Player's tag line
+        server: Server region
+
+    Returns:
+        Basic player info or None
+    """
+    logger.info(f"Getting player info | Player: {game_name}#{tag_line} | Server: {server}")
+
+    try:
+        # Get account info
+        account_info = get_account_info(game_name, tag_line, server)
+        if not account_info:
+            return None
+
+        # Get summoner info for additional details
+        summoner_info = get_summoner_info_puuid(account_info['puuid'], server)
+
+        return {
+            'puuid': account_info['puuid'],
+            'game_name': game_name,
+            'tag_line': tag_line,
+            'summoner_level': summoner_info.get('summonerLevel', 0) if summoner_info else 0,
+            'profile_icon_id': summoner_info.get('profileIconId', 0) if summoner_info else 0,
+            'server': server
+        }
+
+    except Exception as e:
+        logger.error(f"Error getting player info: {e}")
+        return None
+
+
+def display_matches_by_value_async(
+        game_name: str,
+        tag_line: str,
+        server: str,
+        start: int = 0,
+        count: int = 5
+) -> Optional[List[Dict[str, Any]]]:
+    """
+    Get matches starting from a specific index (for async loading).
+
+    Args:
+        game_name: Summoner game name
+        tag_line: Summoner tag line
+        server: Server name
+        start: Starting index
+        count: Number of matches to retrieve
+
+    Returns:
+        List of processed match data or None
+    """
+    logger.debug(f"Fetching matches by value | Start: {start} | Count: {count}")
+
+    # Get account info
+    account_info = get_account_info(game_name, tag_line, server)
+    if not account_info:
+        return None
+
+    puuid = account_info['puuid']
+
+    # Get match IDs
+    match_ids = get_match_ids(puuid, server, start=start, count=count)
+    if not match_ids:
+        return None
+
+    # Fetch and process match details
+    matches = []
+    for match_id in match_ids:
+        match_data = get_match_details(match_id, server)
+        if match_data:
+            # Process the raw match data
+            processed_match = process_match_for_player(match_data, puuid, game_name, tag_line, server)
+            if processed_match:
+                matches.append(processed_match)
+
+        time.sleep(0.05)
+
+    return matches

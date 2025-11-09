@@ -11,7 +11,6 @@
     <!-- Hero Section -->
     <div class="hero-section">
         <h1 class="hero-title">
-            <span class="hero-icon">🎮</span>
             Clash Finder
         </h1>
         <p class="hero-subtitle">Sprawdź statystyki graczy League of Legends i znajdź drużyny Clash</p>
@@ -28,34 +27,9 @@
     <!-- Search Form -->
     <div class="search-form">
         <form action="{{ url_for('main.cheker') }}" method="POST">
-            <!-- Summoner Name Input -->
-            <div class="form-group">
-                <label for="tekst" class="form-label">Nazwa Przywoływacza (Riot ID)</label>
-                <input
-                    type="text"
-                    id="tekst"
-                    name="tekst"
-                    class="form-input"
-                    placeholder="np. Faker#KR1"
-                    required
-                    autofocus>
-                <small class="form-hint">Wpisz nazwę gracza wraz z tagiem (np. NazwaGracza#TAG)</small>
-            </div>
 
-            <!-- Server Selection -->
+             <!-- Search Type Radio Buttons -->
             <div class="form-group">
-                <label for="lista" class="form-label">Wybierz Serwer</label>
-                <select id="lista" name="lista" class="form-select" required>
-                    <option value="">-- Wybierz serwer --</option>
-                    {% for server in servers %}
-                    <option value="{{ server }}">{{ server }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Search Type Radio Buttons -->
-            <div class="form-group">
-                <label class="form-label">Co chcesz zobaczyć?</label>
                 <div class="radio-group">
                     <div class="radio-option">
                         <input
@@ -84,10 +58,39 @@
                 </div>
             </div>
 
+            <!-- Summoner Name Input -->
+            <div class="form-group form-group-inline">
+                <label for="tekst" class="form-label">Nazwa</label>
+                <input
+                    type="text"
+                    id="tekst"
+                    name="tekst"
+                    class="form-input"
+                    placeholder="np. Faker#KR1"
+                    required
+                    autofocus>
+            </div>
+
+            <!-- Server Selection -->
+            <div class="form-group form-group-inline">
+                <label for="lista" class="form-label">Serwer</label>
+                <select id="lista" name="lista" class="form-select" required>
+                    <option value="">-- Wybierz serwer --</option>
+                    {% for server in servers %}
+                    <option value="{{ server }}">{{ server }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">
                 Szukaj
             </button>
+
+
+
+
         </form>
     </div>
 

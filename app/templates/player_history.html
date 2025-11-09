@@ -1,112 +1,87 @@
 {% extends "base.html" %}
 
-{% block title %}{{ match_history_list_sorted[0].summoner_name if match_history_list_sorted else 'Player' }} - Historia Meczów{% endblock %}
+{% block title %}{{ player_info.summoner_name if player_info else 'Player' }} - Historia Meczów{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/player_history.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/match_card.css') }}">
+<style>
+    .loading-section {
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    .spinner-large {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--border-primary);
+        border-top-color: #667eea;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="player-history-container">
-    <!-- Player Header with Stats -->
-    {% if match_history_list_sorted %}
-    {% set first_match = match_history_list_sorted[0] %}
     <div class="player-header">
         <div class="player-info">
             <div class="player-avatar">
-                <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/profileicon/{{ first_match.get('profileIconId', 0) }}.png"
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/{{ player_info.profileIconId|default(0) }}.png"
                      alt="Profile Icon"
-                     onerror="this.src='https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/profileicon/0.png'">
+                     onerror="this.src='https://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/0.png'">
             </div>
             <div class="player-details">
                 <h1 class="player-name">
-                    {{ first_match.summoner_name }}
-                    <span class="player-tag">#{{ first_match.summoner_tag or 'TAG' }}</span>
+                    {{ player_info.summoner_name }}
+                    <span class="player-tag">#{{ player_info.summoner_tag }}</span>
                 </h1>
-                <p class="player-server">{{ first_match.SERVER or 'EUW' }}</p>
+                <p class="player-server">{{ player_info.SERVER }}</p>
             </div>
         </div>
 
-        <!-- Match Statistics Summary (in same row) -->
-        <div class="stats-summary-header">
-            {% set total_matches = match_history_list_sorted|length %}
-            {% set wins = match_history_list_sorted|selectattr('win', 'equalto', True)|list|length %}
-            {% set losses = total_matches - wins %}
-            {% set win_rate = (wins / total_matches * 100)|round(1) if total_matches > 0 else 0 %}
-
-            <div class="stat-card-header">
-                <div class="stat-value-header">{{ total_matches }}</div>
-                <div class="stat-label-header">Meczów</div>
-            </div>
-
-            <div class="stat-card-header stat-win-header">
-                <div class="stat-value-header">{{ wins }}W</div>
-                <div class="stat-label-header">Wygrane</div>
-            </div>
-
-            <div class="stat-card-header stat-loss-header">
-                <div class="stat-value-header">{{ losses }}L</div>
-                <div class="stat-label-header">Przegrane</div>
-            </div>
-
-            <div class="stat-card-header">
-                <div class="stat-value-header">{{ win_rate }}%</div>
-                <div class="stat-label-header">Winrate</div>
-            </div>
+        <div class="stats-summary-header" id="stats-summary">
+            <div class="stat-card-header"><div id="total-matches">--</div><div>Meczów</div></div>
+            <div class="stat-card-header stat-win-header"><div id="total-wins">--W</div><div>Wygrane</div></div>
+            <div class="stat-card-header stat-loss-header"><div id="total-losses">--L</div><div>Przegrane</div></div>
+            <div class="stat-card-header"><div id="win-rate">--%</div><div>Winrate</div></div>
         </div>
     </div>
 
-    <!-- Match List -->
-    <div class="match-list" id="match-list">
-        {% for match in match_history_list_sorted %}
-            {% include 'components/match_card.html' %}
-        {% endfor %}
+    <div id="initial-loading" class="loading-section">
+        <div class="spinner-large"></div>
+        <h3>Ładowanie historii meczów...</h3>
+        <p>Proszę czekać, pobieramy dane z Riot API</p>
     </div>
 
-    <!-- Load More Button -->
-    {% if match_history_list_sorted and match_history_list_sorted|length >= 10 %}
-    <div class="load-more-container">
+    <div id="match-list" class="match-list" style="display:none;"></div>
+
+    <div id="load-more-container" class="load-more-container" style="display:none;">
         <button id="load-more-btn" class="btn btn-primary btn-large">
             <span class="btn-text">Załaduj więcej meczów</span>
-            <span class="btn-loader" style="display: none;">
+            <span class="btn-loader" style="display:none;">
                 <span class="spinner"></span> Ładowanie...
             </span>
         </button>
     </div>
-    {% endif %}
 
-    <!-- Loading Indicator -->
-    <div id="loading-indicator" class="loading-indicator" style="display: none;">
-        <div class="spinner-large"></div>
-        <p>Ładowanie meczów...</p>
-    </div>
-
-    {% else %}
-    <!-- No Matches Found -->
-    <div class="no-matches">
+    <div id="no-matches" class="no-matches" style="display:none;">
         <div class="no-matches-icon">📊</div>
         <h2>Brak danych meczów</h2>
-        <p>Nie znaleziono historii meczów dla tego gracza.</p>
-        <a href="{{ url_for('main.index') }}" class="btn btn-primary">
-            ← Powrót do wyszukiwania
-        </a>
+        <a href="{{ url_for('main.index') }}" class="btn btn-primary">← Powrót do wyszukiwania</a>
     </div>
-    {% endif %}
 </div>
 
-<!-- Hidden data for JavaScript -->
-{% if match_history_list_sorted %}
-{% set first_match = match_history_list_sorted[0] %}
-<div id="player-data" style="display: none;"
-     data-summoner-name="{{ first_match.summoner_name }}"
-     data-summoner-tag="{{ first_match.summoner_tag }}"
-     data-server="{{ first_match.SERVER }}"
-     data-current-count="{{ match_history_list_sorted|length }}">
+<div id="player-data"
+     data-summoner-name="{{ player_info.summoner_name }}"
+     data-summoner-tag="{{ player_info.summoner_tag }}"
+     data-server="{{ player_info.SERVER }}"
+     data-current-count="0">
 </div>
-{% endif %}
 {% endblock %}
 
 {% block extra_js %}
-<script src="{{ url_for('static', filename='js/player_history.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modules/progressive-loader.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modules/load-more-handler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/player-history.js') }}"></script>
 {% endblock %}

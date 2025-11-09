@@ -306,3 +306,333 @@ Traceback (most recent call last):
     return getattr(obj, attribute)
            ^^^^^^^^^^^^^^^^^^^^^^^
 jinja2.exceptions.UndefinedError: dict object has no element 0
+[2025-10-19 19:41:57] ERROR [routes.clash:174] Error in Missing key in clash team data for HextechChest#202, EUNE: 'id'
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\clash.py", line 77, in clash_team
+    team_info = get_team_info_puuid(summoner_info['id'], actual_server)
+                                    ~~~~~~~~~~~~~^^^^^^
+KeyError: 'id'
+[2025-10-19 19:42:15] ERROR [routes.clash:174] Error in Missing key in clash team data for HextechChest#202, EUNE: 'id'
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\clash.py", line 77, in clash_team
+    team_info = get_team_info_puuid(summoner_info['id'], actual_server)
+                                    ~~~~~~~~~~~~~^^^^^^
+KeyError: 'id'
+[2025-11-04 23:33:07] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/lol/match/v5/matches/EUW1_7590736601 | Error: 503 Server Error: Service Unavailable for url: https://europe.api.riotgames.com/lol/match/v5/matches/EUW1_7590736601
+[2025-11-04 23:33:07] ERROR [services.riot_api:279] Failed to get match details: Request failed: 503 Server Error: Service Unavailable for url: https://europe.api.riotgames.com/lol/match/v5/matches/EUW1_7590736601
+[2025-11-07 01:40:12] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Kayn/300IQ | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Kayn/300IQ
+[2025-11-07 01:40:12] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Kayn/300IQ
+[2025-11-07 01:40:17] ERROR [services.riot_api:147] Request error | URL: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Kayn/300IQ | Error: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Kayn/300IQ
+[2025-11-07 01:40:17] ERROR [services.riot_api:177] Failed to get account info: Request failed: 401 Client Error: Unauthorized for url: https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/Kayn/300IQ
+[2025-11-07 01:46:32] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.get_matches' with values ['riot_id', 'server']. Did you mean 'player.api_get_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 134, in block 'content'
+    data-api-url="{{ url_for('player.get_matches', riot_id=player_data.riot_id, server=player_data.server_slug) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.get_matches' with values ['riot_id', 'server']. Did you mean 'player.api_get_matches' instead?
+[2025-11-07 01:49:03] ERROR [services.resource_downloader:281] Invalid JSON in items.json: Expecting ',' delimiter: line 17036 column 479 (char 460715)
+[2025-11-07 01:49:03] ERROR [services.auto_updater:116] Verification failed after update: {'champions.json': True, 'items.json': False, 'summoner_spells.json': True, 'runes.json': True}
+[2025-11-07 01:49:08] ERROR [routes.player:174] Error in API fetch for sanji#dnb: components/match_card_async.html
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 142, in get_matches
+    match_html = render_template(
+                 ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 149, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_explained(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 89, in _get_source_explained
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: components/match_card_async.html
+[2025-11-07 01:49:11] ERROR [routes.player:174] Error in API fetch for sanji#dnb: components/match_card_async.html
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 142, in get_matches
+    match_html = render_template(
+                 ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 149, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 64, in get_source
+    return self._get_source_explained(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 89, in _get_source_explained
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: components/match_card_async.html
+[2025-11-07 01:50:09] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.get_matches' with values ['riot_id', 'server']. Did you mean 'player.api_get_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 134, in block 'content'
+    data-api-url="{{ url_for('player.get_matches', riot_id=player_data.riot_id, server=player_data.server_slug) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.get_matches' with values ['riot_id', 'server']. Did you mean 'player.api_get_matches' instead?
+[2025-11-07 01:50:16] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.get_matches' with values ['riot_id', 'server']. Did you mean 'player.api_get_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 134, in block 'content'
+    data-api-url="{{ url_for('player.get_matches', riot_id=player_data.riot_id, server=player_data.server_slug) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.get_matches' with values ['riot_id', 'server']. Did you mean 'player.api_get_matches' instead?
+[2025-11-07 23:28:09] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Encountered unknown tag 'else'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 64, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 149, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 133, in template
+    {% else %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'else'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.
+[2025-11-08 21:25:29] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history_async.html", line 143, in block 'content'
+    data-api-url="{{ url_for('player.api_get_matches', riot_id=player_data.riot_id, server=player_data.server_slug) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+[2025-11-08 21:27:16] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 107, in block 'content'
+    data-api-url="{{ url_for('player.api_get_matches', riot_id=player_info.summoner_name ~ '--' ~ player_info.summoner_tag, server=player_info.SERVER|lower) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+[2025-11-08 21:27:19] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 107, in block 'content'
+    data-api-url="{{ url_for('player.api_get_matches', riot_id=player_info.summoner_name ~ '--' ~ player_info.summoner_tag, server=player_info.SERVER|lower) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+[2025-11-08 21:28:02] ERROR [routes.player:174] Error in Player: sanji#dnb, Server: EUNE: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+Traceback (most recent call last):
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\routes\player.py", line 69, in player_stats
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\base.html", line 59, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\PycharmProjects\Clash-Finder\app\templates\player_history.html", line 107, in block 'content'
+    data-api-url="{{ url_for('player.api_get_matches', riot_id=player_info.summoner_name ~ '--' ~ player_info.summoner_tag, server=player_info.SERVER|lower) }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nossi\AppData\Local\Programs\Python\Python312\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'player.api_get_matches' with values ['riot_id', 'server']. Did you mean 'player.load_more_matches' instead?
+[2025-11-08 22:20:31] ERROR [routes.player:248] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-08 22:24:43] ERROR [routes.player:248] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-08 22:25:05] ERROR [routes.player:248] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-08 23:27:16] ERROR [routes.player:248] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 14:02:12] ERROR [routes.player:259] Error loading batch: 'list object' has no attribute 'get'
+[2025-11-09 14:06:09] ERROR [routes.player:336] load_more_simple error: invalid literal for int() with base 10: '5?page=1'
+[2025-11-09 14:19:22] ERROR [routes.player:315] load_more_simple error: invalid literal for int() with base 10: '5?page=1'

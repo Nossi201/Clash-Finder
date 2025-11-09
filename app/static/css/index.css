@@ -68,6 +68,25 @@
     margin-bottom: 1.5rem;
 }
 
+/* Inline form group - label and input in one line */
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group-inline .form-label {
+    margin-bottom: 0;
+    min-width: 80px;
+    flex-shrink: 0;
+}
+
+.form-group-inline .form-input,
+.form-group-inline .form-select {
+    flex: 1;
+}
+
 .form-label {
     display: block;
     font-weight: 600;
@@ -156,15 +175,17 @@
     transform: translateY(0);
 }
 
-/* Info Cards */
+/* Info Cards - Desktop in row, mobile stacked */
 .info-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
     gap: 2rem;
     margin-bottom: 3rem;
+    flex-wrap: wrap;
 }
 
 .info-card {
+    flex: 1;
+    min-width: 200px;
     background: var(--card-bg);
     padding: 2rem;
     border-radius: 12px;
@@ -201,37 +222,43 @@
 }
 
 .examples-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
     font-weight: 600;
     margin-bottom: 2rem;
     color: var(--text-primary);
 }
 
 .examples-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .example-card {
-    background: var(--stat-highlight);
-    padding: 1.5rem;
-    border-radius: 8px;
+    background: var(--card-bg);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    border: 2px solid var(--border-primary);
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
     align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.example-card:hover {
+    border-color: #4a90e2;
+    transform: translateY(-2px);
 }
 
 .example-code {
     font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    color: #667eea;
+    font-size: 1.125rem;
+    color: var(--text-primary);
     font-weight: 600;
 }
 
 .example-region {
-    display: inline-block;
     padding: 0.25rem 0.75rem;
     background: #667eea;
     color: white;
@@ -254,7 +281,36 @@
         flex-direction: column;
     }
 
+    /* Stack info cards on mobile */
     .info-cards {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+
+    .info-card {
+        width: 100%;
+    }
+
+    /* Form inline on mobile becomes stacked */
+    .form-group-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-group-inline .form-label {
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-form {
+        padding: 1.5rem;
+    }
+
+    .examples-grid {
+        flex-direction: column;
+    }
+
+    .example-card {
+        width: 100%;
     }
 }
