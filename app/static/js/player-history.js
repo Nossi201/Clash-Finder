@@ -84,7 +84,7 @@
         },
 
 /**
- * Initialize load more handler
+ * Initialize load more handler with progressive loading
  */
 initLoadMoreHandler: function(playerData) {
     if (!window.LoadMoreHandler) {
@@ -96,14 +96,13 @@ initLoadMoreHandler: function(playerData) {
     const tag = encodeURIComponent(playerData.summonerTag);
     const server = encodeURIComponent(playerData.server);
 
-    // Zamiast endpoint z page, użyj custom logiki
     const button = document.querySelector('#load-more-btn');
     if (!button) {
         console.error('Load more button not found');
         return;
     }
 
-    button.addEventListener('click', function() {
+    button.addEventListener('click', async function() {
         // Pobierz aktualną liczbę załadowanych meczów
         const playerDataEl = document.getElementById('player-data');
         const currentCount = parseInt(playerDataEl.dataset.currentCount || '0');
@@ -125,36 +124,83 @@ initLoadMoreHandler: function(playerData) {
         btnText.style.display = 'none';
         btnLoader.style.display = 'inline-flex';
 
-        // Zbuduj URL z start i count
-        const url = `/player_stats/load_more_simple?name=${name}&tag=${tag}&server=${server}&start=${currentCount}&count=5`;
+        try {
+            // Progresywne ładowanie 10 meczów po 2 na raz
+            const totalToLoad = 10;
+            const batchSize = 2;
+            const delayBetweenBatches = 100;
+            const animationDelay = 50;
 
-        console.log(`Fetching: ${url}`);
+            let loadedCount = 0;
+            let hasMore = true;
 
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            const items = data.items || [];
+            while (loadedCount < totalToLoad && hasMore) {
+                const offset = currentCount + loadedCount;
+                const url = `/player_stats/load_more_simple?name=${name}&tag=${tag}&server=${server}&start=${offset}&count=${batchSize}`;
 
-            console.log(`Received ${items.length} new matches`);
+                console.log(`Fetching batch: offset=${offset}, count=${batchSize}`);
 
-            items.forEach(html => {
-                const div = document.createElement('div');
-                div.innerHTML = html.trim();
-                const card = div.firstElementChild;
-                if (card) {
-                    container.appendChild(card);
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-            });
+
+                const data = await response.json();
+                const items = data.items || [];
+
+                console.log(`Received ${items.length} new matches`);
+
+                if (items.length === 0) {
+                    hasMore = false;
+                    break;
+                }
+
+                // Renderuj mecze z animacją
+                for (let i = 0; i < items.length; i++) {
+                    const htmlString = items[i];
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = htmlString.trim();
+                    const card = tempDiv.firstElementChild;
+
+                    if (card) {
+                        // Set initial animation state
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+
+                        // Add to DOM
+                        container.appendChild(card);
+
+                        // Small delay before animation
+                        await new Promise(resolve => setTimeout(resolve, animationDelay));
+
+                        // Animate in
+                        requestAnimationFrame(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        });
+                    }
+                }
+
+                loadedCount += items.length;
+
+                // Check if there are more matches
+                if (data.hasMore === false || items.length < batchSize) {
+                    hasMore = false;
+                    break;
+                }
+
+                // Delay between batches
+                if (loadedCount < totalToLoad && hasMore) {
+                    await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
+                }
+            }
 
             // Update stats after loading more
             const stats = ProgressiveLoader.calculateStats(container);
@@ -166,20 +212,19 @@ initLoadMoreHandler: function(playerData) {
             }
 
             // Hide button if no more data
-            if (data.hasMore === false || items.length === 0) {
+            if (!hasMore) {
                 button.parentElement.style.display = 'none';
             }
-        })
-        .catch(function(error) {
+
+        } catch (error) {
             console.error('Load more failed:', error);
             alert('Błąd podczas ładowania meczów. Spróbuj ponownie.');
-        })
-        .finally(function() {
+        } finally {
             // Re-enable button
             button.disabled = false;
             btnText.style.display = 'inline';
             btnLoader.style.display = 'none';
-        });
+        }
     });
 
     console.log('Load more handler initialized');

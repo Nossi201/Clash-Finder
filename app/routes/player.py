@@ -6,6 +6,8 @@ Keeps original structure but loads first matches asynchronously.
 
 import time
 from flask import Blueprint, render_template, request, jsonify, current_app
+
+from config import DDRAGON_VERSION
 from config.logging_config import get_logger, log_player_search, log_error_with_context
 from app.utils.decorators import conditional_rate_limit, log_request_time
 from app.utils.formatters import unslugify_server, decode_riot_id
@@ -126,7 +128,7 @@ def load_initial_matches():
             match_html = render_template(
                 'components/match_card.html',
                 match=match,
-                ddragon_version='14.1.1'
+                ddragon_version=DDRAGON_VERSION
             )
             match_cards_html.append(match_html)
 
@@ -148,7 +150,7 @@ def load_initial_matches():
     per_minute=20,
     per_hour=200
 )
-def load_more_matches():
+def load_more_matches(DDRAGON_VERSION='14.1.1'):
     """
     Load additional match entries.
     """
@@ -195,7 +197,7 @@ def load_more_matches():
         # Renderuj HTML
         match_cards_html = []
         for match in processed_matches:
-            match_html = render_template('components/match_card.html', match=match, ddragon_version='14.1.1')
+            match_html = render_template('components/match_card.html', match=match, ddragon_version=DDRAGON_VERSION)
             match_cards_html.append(match_html)
 
         logger.info(f"Loaded {len(match_cards_html)} additional matches | Time: {time.time() - start_time:.2f}s")
@@ -254,7 +256,7 @@ def load_batch():
             match_html = render_template(
                 'components/match_card.html',
                 match=match,
-                ddragon_version='14.1.1'
+                ddragon_version=DDRAGON_VERSION
             )
             match_cards_html.append(match_html)
 
@@ -328,7 +330,7 @@ def load_more_simple():
         # Renderuj karty jako HTML
         items = []
         for match in processed_matches:
-            html = render_template('components/match_card.html', match=match, ddragon_version='14.1.1')
+            html = render_template('components/match_card.html', match=match, ddragon_version=DDRAGON_VERSION)
             items.append(html)
 
         # Jeśli otrzymaliśmy mniej niż count, to nie ma więcej

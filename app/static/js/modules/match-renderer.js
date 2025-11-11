@@ -58,7 +58,7 @@
                     <div class="champion-icon">
                         <img src="${window.CDNUtils ? window.CDNUtils.getChampionIcon(match.championName) : ''}"
                              alt="${match.championName}"
-                             onerror="this.src='https://ddragon.leagueoflegends.com/cdn/14.1.1/img/champion/Unknown.png'">
+                             onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${CDNUtils.getVersion()}/img/champion/Unknown.png'">
                         <span class="champion-level">${match.champLevel || 1}</span>
                     </div>
                     <div class="champion-info">
@@ -81,9 +81,9 @@
                 window.CDNUtils.getSpellName(match.summoner2Id) : 'SummonerBlank';
 
             return `
-                <img src="https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/${spell1}.png"
+                <img src="https://ddragon.leagueoflegends.com/cdn/${CDNUtils.getVersion()}/img/spell/${spell1}.png"
                      alt="Spell 1" class="spell-icon">
-                <img src="https://ddragon.leagueoflegends.com/cdn/14.1.1/img/spell/${spell2}.png"
+                <img src="https://ddragon.leagueoflegends.com/cdn/${CDNUtils.getVersion()}/img/spell/${spell2}.png"
                      alt="Spell 2" class="spell-icon">
             `;
         },
@@ -126,7 +126,7 @@
                 if (itemId > 0) {
                     html += `
                         <div class="item-slot">
-                            <img src="https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/${itemId}.png"
+                            <img src="https://ddragon.leagueoflegends.com/cdn/${CDNUtils.getVersion()}/img/item/${itemId}.png"
                                  alt="Item ${itemId}" class="item-icon">
                         </div>
                     `;
