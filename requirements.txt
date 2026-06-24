@@ -1,13 +1,13 @@
 # Core Flask
-Flask==3.0.0
-Werkzeug==3.0.1
+Flask>=3.1.3
+Werkzeug>=3.1.0
 Jinja2==3.1.2
 MarkupSafe==2.1.3
 itsdangerous==2.1.2
 click==8.1.7
 
 # HTTP requests
-requests==2.31.0
+requests>=2.32.4
 urllib3==2.1.0
 certifi==2023.11.17
 
@@ -23,43 +23,19 @@ python-dotenv==1.0.0
 
 # Security
 cryptography==41.0.7
-pyOpenSSL==23.3.0  # For SSL certificate generation
+pyOpenSSL==23.3.0
 
 # WSGI servers (production)
 gunicorn==21.2.0
 gevent==23.9.1
 
-# Development tools
-Flask-DebugToolbar==0.14.1
-
-# Testing
-pytest==7.4.3
-pytest-flask==1.3.0
-pytest-cov==4.1.0
-pytest-mock==3.12.0
-
-# Code quality
-flake8==6.1.0
-black==23.12.1
-isort==5.13.2
-pylint==3.0.3
-
-# Type checking
-mypy==1.7.1
-types-requests==2.31.0.10
-types-redis==4.6.0.11
-
-# Documentation
-Sphinx==7.2.6
-sphinx-rtd-theme==2.0.0
-
 # Monitoring (optional)
 prometheus-flask-exporter==0.23.0
 
-# Rate limiting (alternative if not using Redis)
+# Rate limiting
 Flask-Limiter==3.5.0
 
-# CORS (if needed)
+# CORS
 Flask-CORS==4.0.0
 
 # JSON validation
@@ -68,18 +44,11 @@ jsonschema==4.20.0
 # Date/time utilities
 pytz==2023.3.post1
 
-# File handling
-pathlib2==2.3.7.post1  # For Python < 3.4 compatibility
-
-# Async support (optional)
-aiohttp==3.9.1
-asyncio==3.4.3
+# Async support
+aiohttp>=3.10.11
 
 # CLI utilities
-colorama==0.4.6  # For colored terminal output
+colorama==0.4.6
 
 # System utilities
-psutil==5.9.6  # For system monitoring
-
-# Development dependencies
-watchdog==3.0.0  # For file watching in development
+psutil==5.9.6
