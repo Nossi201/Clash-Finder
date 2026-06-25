@@ -4,10 +4,13 @@ Flask application factory for Clash Finder.
 """
 
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
 from config import get_config
 from config.logging_config import setup_logging, get_logger
 from config.ssl_config import SSLConfig
 from app.template_filters import register_template_filters
+
+csrf = CSRFProtect()
 
 logger = get_logger('app.factory')
 
@@ -77,6 +80,10 @@ def initialize_extensions(app):
     """
     from app.services import cache, rate_limiter, auto_updater, init_updater
 
+    # Initialize CSRF protection
+    csrf.init_app(app)
+    logger.info("CSRF protection initialized")
+
     # Initialize cache
     cache.init_app(app)
     logger.info("Cache initialized")
@@ -112,6 +119,10 @@ def register_blueprints(app):
     app.register_blueprint(main_bp)
     app.register_blueprint(player_bp)
     app.register_blueprint(clash_bp)
+
+    # Exempt JSON API endpoints — they are stateless (no session auth) and
+    # clients include X-CSRFToken header via the JS fetch patch instead.
+    csrf.exempt(player_bp)
 
     # Register debug blueprint only in debug mode
     if app.config.get('DEBUG') or app.config.get('TESTING'):

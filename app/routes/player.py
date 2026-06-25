@@ -7,6 +7,13 @@ Keeps original structure but loads first matches asynchronously.
 import time
 from flask import Blueprint, render_template, request, jsonify, current_app
 
+
+def _safe_int(value, default=0):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
 from config import DDRAGON_VERSION
 from config.logging_config import get_logger, log_player_search, log_error_with_context
 from app.utils.decorators import conditional_rate_limit, log_request_time
@@ -83,7 +90,7 @@ def player_stats(riot_id, server):
 
         return render_template(
             'index.html',
-            error_message=f"Error loading player data: {str(e)}",
+            error_message="Unable to load player data. Please try again.",
             servers=servers_to_region.keys()
         ), 500
 
@@ -141,8 +148,8 @@ def load_initial_matches():
         })
 
     except Exception as e:
-        logger.error(f"Error loading initial matches: {e}")
-        return jsonify({'error': str(e)}), 500
+        logger.error(f"Error loading initial matches: {e}", exc_info=True)
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @player_bp.route('/load_more', methods=['POST'])
@@ -159,7 +166,7 @@ def load_more_matches(DDRAGON_VERSION='14.1.1'):
     start_time = time.time()
     data = request.get_json() or {}
     current = data.get('current_count', 0)
-    number = int(data.get('number', 1))
+    number = _safe_int(data.get('number'), 1)
     server = data.get('server', '')
     game_name = data.get('SUMMONER_NAME', '')
     tag_line = data.get('SUMMONER_TAG', '')
@@ -206,7 +213,7 @@ def load_more_matches(DDRAGON_VERSION='14.1.1'):
 
     except Exception as e:
         log_error_with_context(logger, e, f"Load more for {game_name}#{tag_line}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 @player_bp.route('/load_batch', methods=['POST'])
@@ -225,8 +232,8 @@ def load_batch():
     server = data.get('server', '')
     game_name = data.get('SUMMONER_NAME', '')
     tag_line = data.get('SUMMONER_TAG', '')
-    offset = int(data.get('offset', 0))
-    batch_size = int(data.get('batch_size', 2))
+    offset = _safe_int(data.get('offset'), 0)
+    batch_size = _safe_int(data.get('batch_size'), 2)
 
     logger.debug(f"Loading batch | Player: {game_name}#{tag_line} | Offset: {offset} | Size: {batch_size}")
 
@@ -274,7 +281,7 @@ def load_batch():
 
     except Exception as e:
         logger.error(f"Error loading batch: {e}", exc_info=True)
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 # Alternative route for backwards compatibility
 @player_bp.route('/', methods=['POST'])
@@ -289,8 +296,8 @@ def load_more_simple():
         from app.services.riot_api import process_raw_matches_for_player
 
         # Użyj 'start' jako offset w liście meczów
-        start = int(request.args.get('start', 0))
-        count = int(request.args.get('count', 5))
+        start = _safe_int(request.args.get('start'), 0)
+        count = _safe_int(request.args.get('count'), 5)
         game_name = request.args.get('name', '')
         tag_line = request.args.get('tag', '')
         server = request.args.get('server', '')

@@ -135,6 +135,6 @@ def clash_team(riot_id, server):
         )
         return render_template(
             'index.html',
-            error_message=f"Error loading clash team: {str(e)}",
+            error_message="Unable to load clash team data. Please try again.",
             servers=servers_to_region.keys()
         ), 500

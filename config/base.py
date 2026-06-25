@@ -177,6 +177,13 @@ class ProductionConfig(Config):
         """Initialize production application."""
         Config.init_app(app)
 
+        secret = app.config.get('SECRET_KEY', '')
+        if not secret or secret == 'dev-secret-key-change-in-production':
+            raise ValueError(
+                "SECRET_KEY must be set to a secure random value in production. "
+                "Generate one with: python scripts/generate_secret_key.py"
+            )
+
         # Log to syslog or external service in production
         import logging
         from logging.handlers import SysLogHandler

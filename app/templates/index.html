@@ -27,6 +27,7 @@
     <!-- Search Form -->
     <div class="search-form">
         <form action="{{ url_for('main.cheker') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
              <!-- Search Type Radio Buttons -->
             <div class="form-group">

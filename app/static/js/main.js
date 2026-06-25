@@ -1,6 +1,25 @@
 // app/static/js/main.js
 // Main JavaScript for Clash Finder
 
+// Patch global fetch to automatically include CSRF token on all non-GET requests.
+// The token is read from <meta name="csrf-token"> injected by Flask-WTF.
+(function() {
+    var _fetch = window.fetch;
+    window.fetch = function(url, options) {
+        options = options || {};
+        var method = (options.method || 'GET').toUpperCase();
+        if (method !== 'GET' && method !== 'HEAD') {
+            var meta = document.querySelector('meta[name="csrf-token"]');
+            if (meta) {
+                options.headers = Object.assign({}, options.headers, {
+                    'X-CSRFToken': meta.content
+                });
+            }
+        }
+        return _fetch.call(this, url, options);
+    };
+})();
+
 (function() {
     'use strict';
 
@@ -273,10 +292,17 @@
 
             const notification = document.createElement('div');
             notification.className = 'flash-message flash-' + type;
-            notification.innerHTML = `
-                <span class="flash-text">${message}</span>
-                <button class="flash-close">×</button>
-            `;
+
+            const span = document.createElement('span');
+            span.className = 'flash-text';
+            span.textContent = message;
+
+            const btn = document.createElement('button');
+            btn.className = 'flash-close';
+            btn.textContent = '×';
+
+            notification.appendChild(span);
+            notification.appendChild(btn);
 
             const container = document.querySelector('.flash-messages') || createFlashContainer();
             container.appendChild(notification);
